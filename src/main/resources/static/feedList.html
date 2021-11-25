@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="Fitness - provide the easy responsive free website templates. You can easily customize and make your own website for your startup business.">
+    <meta name="keywords" content="bootstrap template, Responsive Template, Website Template, free website templates, free website template download ">
+    <title>Fitness-The Gym Club | Bootstrap | Free Responsive Website Templates</title>
+    <!-- Bootstrap -->
+    <link href="../static/bootstrap-template/css/bootstrap.min.css" rel="stylesheet">
+    <!-- style CSS -->
+
+    <link href="../static/bootstrap-template/css/style.css" rel="stylesheet">
+
+    <!-- animsition css -->
+    <link rel="stylesheet" type="text/css" href="../static/bootstrap-template/css/animsition.min.css">
+    <!-- Font Awesome CSS -->
+    <link href="../static/bootstrap-template/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../static/bootstrap-template/css/fontello.css">
+    <!-- font css -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i%7cRoboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+    <!-- owl Carousel Css -->
+    <link href="../static/bootstrap-template/css/owl.carousel.css" rel="stylesheet">
+    <link href="../static/bootstrap-template/css/owl.theme.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
+
+<script>
+
+    $(document).ready(function () {
+        feed_list();
+        alert("짠");
+    });
+
+    function feed_list() {
+
+        $('#post').empty();
+
+        $.ajax({
+            type: "GET",
+            url: `/api/feeds/`,
+            success: function (response) {
+                console.log(response)
+
+                for (let i = 0; i < response.length; i++) {
+                    let title = response[i]['title']
+                    let id = response[i]['id']
+                    console.log(id)
+
+                    let temp_html = `
+                                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="${id}">
+                                    <div class="post-block mb30">
+                                        <div class="post-header">
+                                            <!-- 좋아요/프로필 -->
+                                            <div class="post-title">
+                                                <h3><a href="feedDetail.html?id=${id}" class="text-white">${title}</a></h3>
+                                                </h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                    `
+                    $('#post').append(temp_html)
+                }
+            }
+        })
+    }
+
+
+</script>
+
+<body class="animsition">
+
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<div class="page-header">
+    <div class="header">
+        {% include './common/header.html'  ignore missing %}
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="page-caption pinside40">
+                    <h1 class="page-title">DEUGGEUN FEED</h1>
+                    <p><a href="/posting" class="btn btn-default"><i class="fas fa-edit">작성하기</i></a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="space-medium">
+    <div class="container">
+        <div class="row">
+            <div id="post"></div>
+
+        </div>
+    </div>
+</div>
+{% include './common/footer.html'  ignore missing %}
+<!-- back to top icon -->
+<a href="#0" class="cd-top" title="Go to top">Top</a>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="../static/bootstrap-template/js/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="../static/bootstrap-template/js/bootstrap.min.js"></script>
+<script src="../static/bootstrap-template/js/menumaker.js"></script>
+<!-- sticky header -->
+<script type="text/javascript" src="../static/bootstrap-template/js/jquery.sticky.js"></script>
+<script type="text/javascript" src="../static/bootstrap-template/js/sticky-header.js"></script>
+<!-- animsition -->
+<script type="text/javascript" src="../static/bootstrap-template/js/animsition.js"></script>
+<script type="text/javascript" src="../static/bootstrap-template/js/animsition-script.js"></script>
+<!-- blog-carousel-->
+<script type="text/javascript" src="../static/bootstrap-template/js/owl.carousel.min.js"></script>
+<script type="text/javascript" src="../static/bootstrap-template/js/blog-carousel.js"></script>
+<!-- Back to top script -->
+<script src="../static/bootstrap-template/js/back-to-top.js" type="text/javascript"></script>
+<!--&lt;!&ndash; posting-list JS &ndash;&gt;-->
+<!--<script src="../static/js/posting-list.js"></script>-->
+<!--<script src="{{ url_for('static', filename='myjs.js') }}"></script>-->
+<!-- Font Awesome CSS -->
+<script src="https://kit.fontawesome.com/1943f1cfcb.js" crossorigin="anonymous"></script>
+</body>
+
+</html>
