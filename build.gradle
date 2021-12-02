@@ -19,17 +19,6 @@ repositories {
 }
 
 dependencies {
-    // aws secrets
-    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap:3.0.3'
-    implementation 'org.springframework.cloud:spring-cloud-starter-aws-secrets-manager-config:2.2.6.RELEASE'
-
-    // aws s3
-    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
-
-    // 스프링 시큐리티
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-
-
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
