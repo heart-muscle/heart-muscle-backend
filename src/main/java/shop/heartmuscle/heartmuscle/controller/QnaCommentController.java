@@ -1,7 +1,7 @@
-package com.heartmuscle.heartmusclebackend.controller;
+package shop.heartmuscle.heartmuscle.controller;
 
-import com.heartmuscle.heartmusclebackend.dto.QnaCommentRequestDto;
-import com.heartmuscle.heartmusclebackend.service.QnaCommentService;
+import shop.heartmuscle.heartmuscle.dto.QnaCommentRequestDto;
+import shop.heartmuscle.heartmuscle.service.QnaCommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

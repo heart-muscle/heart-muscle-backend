@@ -1,4 +1,4 @@
-package com.heartmuscle.heartmusclebackend;
+package shop.heartmuscle.heartmuscle;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

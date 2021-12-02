@@ -1,7 +1,7 @@
-package com.heartmuscle.heartmusclebackend.domain;
+package shop.heartmuscle.heartmuscle.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.heartmuscle.heartmusclebackend.dto.QnaCommentRequestDto;
+import shop.heartmuscle.heartmuscle.dto.QnaCommentRequestDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

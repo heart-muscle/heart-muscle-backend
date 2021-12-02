@@ -1,10 +1,10 @@
-package com.heartmuscle.heartmusclebackend.service;
+package shop.heartmuscle.heartmuscle.service;
 
-import com.heartmuscle.heartmusclebackend.domain.Qna;
-import com.heartmuscle.heartmusclebackend.domain.QnaComment;
-import com.heartmuscle.heartmusclebackend.dto.QnaCommentRequestDto;
-import com.heartmuscle.heartmusclebackend.repository.QnaCommentRepository;
-import com.heartmuscle.heartmusclebackend.repository.QnaRepository;
+import shop.heartmuscle.heartmuscle.domain.Qna;
+import shop.heartmuscle.heartmuscle.domain.QnaComment;
+import shop.heartmuscle.heartmuscle.dto.QnaCommentRequestDto;
+import shop.heartmuscle.heartmuscle.repository.QnaCommentRepository;
+import shop.heartmuscle.heartmuscle.repository.QnaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

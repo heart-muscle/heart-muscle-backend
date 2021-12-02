@@ -1,6 +1,6 @@
-package com.heartmuscle.heartmusclebackend.repository;
+package shop.heartmuscle.heartmuscle.repository;
 
-import com.heartmuscle.heartmusclebackend.domain.QnaComment;
+import shop.heartmuscle.heartmuscle.domain.QnaComment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface QnaCommentRepository extends JpaRepository<QnaComment, Long> {

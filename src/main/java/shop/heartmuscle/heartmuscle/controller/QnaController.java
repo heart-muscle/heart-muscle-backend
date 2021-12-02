@@ -1,8 +1,8 @@
-package com.heartmuscle.heartmusclebackend.controller;
+package shop.heartmuscle.heartmuscle.controller;
 
-import com.heartmuscle.heartmusclebackend.domain.Qna;
-import com.heartmuscle.heartmusclebackend.dto.QnaRequestDto;
-import com.heartmuscle.heartmusclebackend.service.QnaService;
+import shop.heartmuscle.heartmuscle.domain.Qna;
+import shop.heartmuscle.heartmuscle.dto.QnaRequestDto;
+import shop.heartmuscle.heartmuscle.service.QnaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

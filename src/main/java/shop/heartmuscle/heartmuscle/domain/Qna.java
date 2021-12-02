@@ -1,6 +1,6 @@
-package com.heartmuscle.heartmusclebackend.domain;
+package shop.heartmuscle.heartmuscle.domain;
 
-import com.heartmuscle.heartmusclebackend.dto.QnaRequestDto;
+import shop.heartmuscle.heartmuscle.dto.QnaRequestDto;
 import lombok.*;
 
 import javax.persistence.*;

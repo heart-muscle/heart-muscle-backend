@@ -1,4 +1,4 @@
-package com.heartmuscle.heartmusclebackend.dto;
+package shop.heartmuscle.heartmuscle.dto;
 
 import lombok.Getter;
 import lombok.Setter;

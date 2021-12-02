@@ -1,4 +1,4 @@
-package com.heartmuscle.heartmusclebackend.domain;
+package shop.heartmuscle.heartmuscle.domain;
 
 import lombok.Getter;
 import lombok.Setter;
