@@ -9,9 +9,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/15181efa86.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.0/css/bulma.min.css"/>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script><meta charset="UTF-8">
     <!-- JS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
 
     <!-- 외부 CSS 파일 불러오기 -->
     <link rel="stylesheet" type="text/css" href="/css/login.css">
@@ -19,6 +21,72 @@
     <!-- JS 불러오기 -->
 <!--    <script type="application/javascript" src="../static/js/login.js"></script>-->
 
+    <script>
+        function login() {
+            let userid = $("#username").val()
+            let password = $("#password").val()
+            let info = {
+                username: $("#username").val(),
+                password: $("#password").val()
+            }
+            if (userid == "" && password == "") {
+                $("#help-id-login").text("아이디를 입력해주세요.")
+                $("#help-password-login").text("비밀번호를 입력해주세요.")
+                $("#input-username").focus()
+                return;
+            } else if (userid != "" && password == "") {
+                $("#help-id-login").text("")
+                $("#help-password-login").text("비밀번호를 입력해주세요.")
+                $("#input-password").focus()
+                return;
+            } else if (password != "" && userid == "") {
+                $("#help-password-login").text("")
+                $("#help-id-login").text("아이디를 입력해주세요.")
+                $("#input-username").focus()
+                return;
+            } else {
+                $("#help-password-login").text("")
+                $("#help-id-login").text("")
+            }
+            $.ajax({
+                type: 'POST',
+                url: `/login`,
+                contentType: "application/json",
+                data: JSON.stringify(info),
+                success: function (response) {
+                    localStorage.setItem("token", response['token']);
+                    localStorage.setItem("username", response['username']);
+                    location.href = '/';
+                }
+            })
+        }
+
+        Kakao.init('e9524bb8bab299131e454537ff9178d1');
+        function loginWithKakao() {
+            Kakao.Auth.login({
+                success: function(authObj) {
+                    $.ajax({
+                        type: 'POST',
+                        url: `/login/kakao`,
+                        contentType: "application/json",
+                        data: JSON.stringify({'token':authObj['access_token']}),
+                        success: function (response) {
+                            if (response['result'] == 'success') {
+                                localStorage.setItem("token", response['token']);
+                                localStorage.setItem("username", response['username']);
+                                location.href = '/';
+                            } else {
+                                alert("아이디 혹은 비밀번호가 틀렸습니다")
+                            }
+                        }
+                    })
+                },
+                fail: function(err) {
+                    alert(JSON.stringify(err))
+                },
+            })
+        }
+    </script>
 
 </head>
 
@@ -36,10 +104,10 @@
                     <h1 class="title is-4">WELCOME!</h1>
                     <p class="description">두근득근과 함께 운동해요! :)</p>
 
-                    <form action="/user/login" method="post">
+
                     <div class="field has-addons">
                         <div class="control has-icons-left" style="width: 100%">
-                            <input id="input-username" class="input is-medium" type="text" placeholder="아이디" name="username">
+                            <input class="input is-medium" type="text" placeholder="아이디" id="username">
                             <span class="icon is-small is-left"><i class="fa fa-user"></i></span>
                         </div>
                     </div>
@@ -48,7 +116,7 @@
 
                     <div class="field">
                         <div class="control has-icons-left">
-                            <input id="input-password" class="input is-medium" type="password" placeholder="비밀번호" name="password">
+                            <input class="input is-medium" type="password" placeholder="비밀번호" id="password">
                             <span class="icon is-small is-left"><i class="fa fa-lock"></i></span>
                         </div>
                     </div>
@@ -59,12 +127,17 @@
 
                     <div id="div-sign-in-or-up" class="has-text-centered">
                         <nav class="level is-mobile">
-                            <button class="level-item button is-sparta" id="login-id-submit">
+                            <button class="level-item button is-sparta" id="login-id-submit" onclick="login()">
                                 로그인
                             </button>
                         </nav>
+                        <nav class="level is-mobile">
+                            <button class="level-item button is-sparta" button id="login-kakao-btn" onclick="loginWithKakao()">
+                                카카오로 로그인
+                            </button>
+                        </nav>
                     </div>
-                    </form>
+
 
                     <hr>
                     <h4 class="mb-3">아직 회원이 아니라면</h4>
