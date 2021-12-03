@@ -25,7 +25,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew build -x test
       - name: Get current time
         uses: 1466587594/get-current-time@v2
         id: current-time
