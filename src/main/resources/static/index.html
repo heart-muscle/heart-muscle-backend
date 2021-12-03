@@ -4,9 +4,15 @@
     <meta charset="UTF-8">
     <title>로그인 테스트</title>
 </head>
+<script>
+    function logout(){
+        localStorage.clear()
+        window.location.href="/user/login"
+    }
+</script>
 <body>
     <h1><span id="username"></span> 님 환영합니다!</h1>
-    <a id="logout-text" href="/user/logout">
+    <a id="logout-text" onclick="logout()">
         로그아웃
     </a>
 </body>

@@ -56,15 +56,6 @@ public class UserApiController {
         return ResponseEntity.ok(new JwtResponse(token, userDetails.getUsername()));
     }
 
-    @PostMapping("/logout")
-    public void logout(HttpServletResponse response){
-        Cookie cookie = new Cookie("X-AUTH-TOKEN", null);
-        cookie.setHttpOnly(true);
-        cookie.setSecure(false);
-        cookie.setMaxAge(0);
-        cookie.setPath("/");
-        response.addCookie(cookie);
-    }
 
     private void authenticate(String username, String password) throws Exception {
         try {
