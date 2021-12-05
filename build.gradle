@@ -4,7 +4,7 @@ plugins {
     id 'java'
 }
 
-group = 'com.example'
+group = 'shop.heartmuscle'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
@@ -26,7 +26,9 @@ dependencies {
     runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+    // https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-aws
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 }
 
 test {
