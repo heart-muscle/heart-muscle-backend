@@ -24,6 +24,11 @@ public class QnaController {
         return qnaService.getQna();
     }
 
+    @GetMapping("/qna/{id}")
+    public Qna getQna(@PathVariable Long id){
+        return qnaService.getQna(id);
+    }
+
     @PutMapping("/qna/{id}")
     public Long updateQna(@PathVariable Long id, @RequestBody QnaRequestDto requestDto) {
         return qnaService.update(id, requestDto);
