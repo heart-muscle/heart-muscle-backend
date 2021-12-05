@@ -4,13 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import shop.heartmuscle.heartmuscle.domain.Feed;
-import shop.heartmuscle.heartmuscle.domain.Image;
+//import shop.heartmuscle.heartmuscle.domain.Image;
 import shop.heartmuscle.heartmuscle.dto.CommentRequestDto;
 import shop.heartmuscle.heartmuscle.dto.FeedRequestDto;
-import shop.heartmuscle.heartmuscle.dto.ImageRequestDto;
+//import shop.heartmuscle.heartmuscle.dto.ImageRequestDto;
 import shop.heartmuscle.heartmuscle.repository.FeedRepository;
 import shop.heartmuscle.heartmuscle.service.FeedService;
-import shop.heartmuscle.heartmuscle.service.ImageService;
+//import shop.heartmuscle.heartmuscle.service.ImageService;
 import shop.heartmuscle.heartmuscle.service.S3Service;
 
 import java.io.IOException;
@@ -23,27 +23,28 @@ public class FeedController {
     private final FeedService feedService;
     private final FeedRepository feedRepository;
     private final S3Service s3Service;
-    private final ImageService imageService;
+//    private final ImageService imageService;
 
     // 피드 작성(text)
-    @PostMapping("/api/feeds")
-    public Feed createFeed(@RequestBody FeedRequestDto feedRequestDto) {
-        return feedService.createFeed(feedRequestDto);
-    }
+//    @PostMapping("/api/feeds")
+//    public Feed createFeed(@RequestBody FeedRequestDto feedRequestDto) {
+//        return feedService.createFeed(feedRequestDto);
+//    }
 
     // 피드 작성 (image + text)
-    @PostMapping("/v1/upload")
-    public Feed uploadImage(@RequestPart(value="file",required = false) MultipartFile file, FeedRequestDto feedRequestDto) {
-        return feedService.createFeed(feedRequestDto);
-    }
+//    @PostMapping("/v1/upload")
+//    public Feed uploadImage(@RequestPart(value="file",required = false) MultipartFile file, FeedRequestDto feedRequestDto) {
+//        return feedService.createFeed(feedRequestDto);
+//    }
 
     // 피드 작성 (image + text)
     @PostMapping("/feed/save")
-    public void ImageFeed(ImageRequestDto imageRequestDto, MultipartFile file) throws IOException {
-        String imgPath = s3Service.upload(file);
-        System.out.println("imgPath:::" + imgPath);
-        imageRequestDto.setFilePath(imgPath);
-        imageService.saveImage(imageRequestDto);
+    public void ImageFeed(FeedRequestDto feedRequestDto) throws IOException {
+//        String imgPath = s3Service.upload(file);
+//        System.out.println("imgPath:::" + imgPath);
+//        imageRequestDto.setFilePath(imgPath);
+//        imageService.saveImage(imageRequestDto);
+        feedService.saveFeed(feedRequestDto);
     }
 
     // 피드 목록(text) 불러오기
@@ -52,11 +53,11 @@ public class FeedController {
         return feedService.getFeeds();
     }
 
-    // 피드 목록((image + text)) 불러오기
-    @GetMapping("/api/feeds+image")
-    public List<Image> getImages() {
-        return imageService.getImages();
-    }
+//    // 피드 목록((image + text)) 불러오기
+//    @GetMapping("/api/feeds+image")
+//    public List<Image> getImages() {
+//        return imageService.getImages();
+//    }
 
 
     // 피드 상세보기
@@ -80,15 +81,15 @@ public class FeedController {
     }
 
     // 댓글작성
-//    @PostMapping("/feeds/comment")
-//    public void createComment(@RequestBody CommentRequestDto commentRequestDto) {
-//        feedService.createComment(commentRequestDto);
-//    }
-
-    @PostMapping("/images/comment")
-    public void createImageComment(@RequestBody CommentRequestDto commentRequestDto) {
-        imageService.createImageComment(commentRequestDto);
+    @PostMapping("/feeds/comment")
+    public void createComment(@RequestBody CommentRequestDto commentRequestDto) {
+        feedService.createComment(commentRequestDto);
     }
+
+//    @PostMapping("/images/comment")
+//    public void createImageComment(@RequestBody CommentRequestDto commentRequestDto) {
+//        imageService.createImageComment(commentRequestDto);
+//    }
 
 }
 

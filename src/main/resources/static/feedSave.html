@@ -94,15 +94,18 @@
           </div>
         </div>
         <p>
-          <input type="file" name="file" id="file" required="required">
+          <input type="file" name="file" id="image" required="required">
         </p>
         <p>
-          <input type="text" class="form-control" id="title" placeholder="제목을 입력하세요">
-          <input type="text" class="form-control" id="content" placeholder="내용을 입력하세요">
-          <textarea name="content" id="text_field" cols="50" rows="5" placeholder="140자 까지 등록 가능합니다"></textarea>
+          <input id="title" class="form-control" placeholder="제목여기">
+        </p>
+        <p>
+          <input type="text" value="" id="tags" data-role="tagsinput" placeholder="tags" />
+        </p>
+        <p>
+          <textarea name="content" id="content" cols="50" rows="5" placeholder="140자 까지 등록 가능합니다"></textarea>
         </p>
         <button class="submit_btn" type="button" onclick="feedSave()">저장하기</button>
-        <input class="submit_btn" type="submit" value="저장">
       </form>
 
     </div>
@@ -116,7 +119,7 @@
 <!--<script src="js/insta.js"></script>-->
 
 <script>
-  var fileInput  = document.querySelector( "#file" ),
+  var fileInput  = document.querySelector( "#image" ),
           button     = document.querySelector( ".input-file-trigger" ),
           the_return = document.querySelector(".file-return");
 
@@ -144,25 +147,21 @@
   }
 
   function feedSave() {
-    alert("저장하기")
     var data = new FormData();
     data.append( "title", $("#title").val() );
     data.append( "content", $("#content").val() );
-    // data.append( "tags", $("#tags").val() );
-    data.append( "image", $("#image")[0]);
-    console.log("data+", data)
-    console.log("title:::", $("#title").val())
+    data.append( "tags", $("#tags").val() );
+    data.append( "image", $("#image")[0].files[0] );
 
     $.ajax({
       type: "POST",
       url: "/feed/save",
       processData: false,
       contentType: false,
-      enctype: "multipart/form-data",
       data: data,
       success: function (response) {
         alert("포스팅 업데이트 성공!");
-        // window.location.reload();
+        window.location.reload();
       }
     })
   }

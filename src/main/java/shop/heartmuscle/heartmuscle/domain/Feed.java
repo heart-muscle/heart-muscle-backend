@@ -1,16 +1,20 @@
 package shop.heartmuscle.heartmuscle.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Setter;
 import shop.heartmuscle.heartmuscle.dto.FeedRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.swing.text.html.HTML;
 import java.util.List;
+import java.util.Set;
 
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
-//@Setter
+@Setter
 @Entity
 public class Feed extends Timestamped{
 
@@ -18,23 +22,30 @@ public class Feed extends Timestamped{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 50, nullable = false)
+    @Column(nullable = false)
     private String title;
 
-    @Column(length = 500, nullable = false)
+    @Column(nullable = false)
     private String content;
 
-//    @OneToMany(mappedBy = "feed")
-//    private List<Comment> comments;
+    @Column(nullable = true)
+    private String imageUrl;
+
+    @OneToMany(mappedBy = "feed")
+    private List<Comment> comments;
+
+    @OneToMany(mappedBy="feed")
+    private Set<WorkoutTag> tags;
 
     public Feed(FeedRequestDto feedRequestDto) {
         this.title = feedRequestDto.getTitle();
         this.content = feedRequestDto.getContent();
     }
 
-    public Feed(String title, String content) {
-        this.title = title;
-        this.content = content;
+    public Feed(FeedRequestDto feedRequestDto, String imageUrl) {
+        this.title = feedRequestDto.getTitle();
+        this.content = feedRequestDto.getContent();
+        this.imageUrl = imageUrl;
     }
 
     public void update(FeedRequestDto feedRequestDto) {
