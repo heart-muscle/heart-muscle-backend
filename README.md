@@ -16,3 +16,13 @@ teamco의 heart-muscle 스프링 프로젝트 repo입니다.
 
 소개
 
+📌 3차 프로젝트 기술 스택&선택 이유 - WIKI 이동
+Java - 개발 언어
+JPA - 자바 ORM 기술 표준
+Spring boot - 웹 프레임워크
+Spring Security - 인증&인가 프레임워크
+MySQL(AWS RDS) - 데이터베이스
+Git - 형상관리
+Github Actions - CI/CD
+AWS S3, CloudFront, EBS - 서버 인프라
+
