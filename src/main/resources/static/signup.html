@@ -12,7 +12,8 @@
     <link rel="stylesheet" type="text/css" href="../css/register.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-        var id_check = false
+        let id_check = false
+
         function is_email(asValue){
             var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
             return regExp.test(asValue);
@@ -22,8 +23,9 @@
             let password = $("#password").val()
             let email = $("#email").val()
 
-            if (id_check = false) {
-                alert("ID 중복체크를 해주세요")
+            if (id_check == false){
+                alert("ID 중복 확인을 먼저 해주세요!")
+                return;
             }
 
             if (userid == "" && password == "" && email=="") {
@@ -122,7 +124,7 @@
                     console.log(data)
                     if ($.trim(data) == 0) {
                         alert("가입된 ID 입니다");
-                        $('#username').empty();
+                        id_check = false;
                     } else {
                         alert("사용 가능한 ID 입니다");
                         id_check = true;
