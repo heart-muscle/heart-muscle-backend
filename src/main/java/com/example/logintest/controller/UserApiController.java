@@ -15,9 +15,11 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @RequiredArgsConstructor
@@ -55,6 +57,12 @@ public class UserApiController {
         final String token = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(new JwtResponse(token, userDetails.getUsername()));
     }
+    @RequestMapping(value = "/checkSignup", method = RequestMethod.POST)
+    public String checkSignup(HttpServletRequest request, Model model) {
+        String id = request.getParameter("id"); int rowcount = userService.checkSignup(id);
+        return String.valueOf(rowcount);
+    }
+
 
 
     private void authenticate(String username, String password) throws Exception {

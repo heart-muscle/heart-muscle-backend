@@ -91,4 +91,13 @@ public class UserService {
 
         return username;
     }
+
+    public int checkSignup(String id) {
+        Optional<User> found = userRepository.findByUsername(id);
+        if (found.isPresent()) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
 }

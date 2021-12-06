@@ -12,6 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../css/register.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
+        var id_check = false
         function is_email(asValue){
             var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
             return regExp.test(asValue);
@@ -20,6 +21,10 @@
             let userid = $("#username").val()
             let password = $("#password").val()
             let email = $("#email").val()
+
+            if (id_check = false) {
+                alert("ID 중복체크를 해주세요")
+            }
 
             if (userid == "" && password == "" && email=="") {
                 $("#help-id-login").text("아이디를 입력해주세요.")
@@ -109,6 +114,24 @@
                 }
             })
         }
+        function checkSignup() {
+            $.ajax({ type: 'POST',
+                url: '/checkSignup',
+                data: { "id" : $('#username').val() },
+                success: function(data) {
+                    console.log(data)
+                    if ($.trim(data) == 0) {
+                        alert("가입된 ID 입니다");
+                        $('#username').empty();
+                    } else {
+                        alert("사용 가능한 ID 입니다");
+                        id_check = true;
+                    }
+                }
+            }); //end ajax
+        }
+
+
     </script>
 </head>
 
@@ -129,6 +152,7 @@
                         <div class="field">
                             <div class="control">
                                 <input class="input is-medium" type="text" placeholder="Username" id="username">
+                                <button class="button is-primary is-inverted" onclick="checkSignup()">ID 중복 확인</button>
                                 <p id="help-id-login" class="help is-danger"></p>
                             </div>
                         </div>

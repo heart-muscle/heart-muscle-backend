@@ -45,6 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login/kakao").permitAll()
                 .antMatchers("/signup").permitAll()
                 .antMatchers("/").permitAll()
+                .antMatchers("/checkSignup").permitAll()
                 // 그 외 모든 요청은 인증과정 필요
                 .anyRequest().authenticated()
                 .and()
