@@ -3,6 +3,7 @@ package shop.heartmuscle.heartmuscle.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,15 +19,15 @@ import shop.heartmuscle.heartmuscle.controller.JwtAuthenticationFilter;
 @Configuration
 @EnableWebSecurity // 스프링 Security 지원을 가능하게 함
 @EnableGlobalMethodSecurity(securedEnabled = true)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    private final JwtAuthenticationFilter jwtRequestFilter;
+        private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+        private final JwtAuthenticationFilter jwtRequestFilter;
 
-    @Bean
-    public BCryptPasswordEncoder encodePassword() {
-        return new BCryptPasswordEncoder();
-    }
+        @Bean
+        public BCryptPasswordEncoder encodePassword() {
+            return new BCryptPasswordEncoder();
+}
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -46,6 +47,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/signup").permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/checkSignup").permitAll()
+                .antMatchers(HttpMethod.GET,"/actuator/health").permitAll()
+                .antMatchers(HttpMethod.GET, "/feed/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/qna/**").permitAll()
                 // 그 외 모든 요청은 인증과정 필요
                 .anyRequest().authenticated()
                 .and()
