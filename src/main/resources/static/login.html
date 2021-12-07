@@ -57,7 +57,8 @@
                 success: function (response) {
                     localStorage.setItem("token", response['token']);
                     localStorage.setItem("username", response['username']);
-                    location.href = '/';
+
+                    window.location.href = "feedList.html";
                 },
                 fail: function (err) {
                     alert(JSON.stringify(err))
@@ -78,7 +79,7 @@
                         success: function (response) {
                                 localStorage.setItem("token", response['token']);
                                 localStorage.setItem("username", response['username']);
-                                location.href = '/';
+                                window.location.href = "feedList.html";
                         }
                     })
                 }
@@ -141,7 +142,7 @@
                     <hr>
                     <h4 class="mb-3">아직 회원이 아니라면</h4>
                     <nav class="level is-mobile">
-                        <button class="level-item button is-sparta is-outlined" onclick="location.href='/user/signup'">
+                        <button class="level-item button is-sparta is-outlined" onclick="location.href='signup.html'">
                             회원가입하기
                         </button>
                     </nav>
