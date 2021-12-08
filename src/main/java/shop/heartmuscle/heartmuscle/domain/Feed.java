@@ -33,10 +33,10 @@ public class Feed extends Timestamped{
     @Column(nullable = true)
     private String imageUrl;
 
-    @OneToMany(mappedBy = "feed", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
-    @OneToMany(mappedBy="feed")
+    @OneToMany(mappedBy="feed", cascade = CascadeType.ALL)
     private Set<WorkoutTag> tags;
 
     @JsonIgnore // 이게 무한루프에 빠지는 걸 방지해줌

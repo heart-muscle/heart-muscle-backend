@@ -67,14 +67,17 @@ public class FeedController {
     // 피드 수정하기
     @PutMapping("/feed/{id}")
     public Long updateFeed(@PathVariable Long id, @RequestBody FeedRequestDto feedRequestDto) {
+        System.out.println("수정할 피드 아이디" + id);
+        System.out.println("수정할 피드 내용" + feedRequestDto.getTitle());
         feedService.update(id, feedRequestDto);
         return id;
     }
 
     // 피드 삭제하기
     @DeleteMapping("/feed/{id}")
-    public Long deleteMemo(@PathVariable Long id) {
-        feedRepository.deleteById(id);
+    public Long deleteFeed(@PathVariable Long id) {
+        feedService.delete(id);
+//        feedRepository.deleteById(id);
         return id;
     }
 

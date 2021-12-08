@@ -53,6 +53,11 @@ public class FeedService {
         );
     }
 
+    public void delete(Long id) {
+        // 피드에 달려있는
+        feedRepository.deleteById(id);
+    }
+
     @Transactional
     public Long update(Long id, FeedRequestDto feedRequestDto) {
         Feed feed = feedRepository.findById(id).orElseThrow(
