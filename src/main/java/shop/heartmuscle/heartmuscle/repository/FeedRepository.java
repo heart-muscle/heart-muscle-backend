@@ -14,4 +14,8 @@ public interface FeedRepository extends JpaRepository<Feed, Long> {
     @EntityGraph(attributePaths = {"comments","tags"})
     @Override
     List<Feed> findAll();
+
+//    List<Feed> findAllByUserIdAndType(Long userId, String type);
+//    void deleteByContentIdAndUserId(String contentId, Long userId);
+//    Feed findByContentIdAndUserId(String contentId, Long userId);
 }

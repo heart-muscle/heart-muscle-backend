@@ -38,6 +38,7 @@ public class Comment extends Timestamped {
 
     public Comment(CommentRequestDto commentRequestDto, Feed feed) {
         this.comment = commentRequestDto.getComment();
+        this.feed = feed;
     }
 
 }

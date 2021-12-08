@@ -64,6 +64,7 @@ public class FeedService {
 
     @Transactional
     public void createComment(CommentRequestDto commentRequestDto) {
+        System.out.println("댓글 저장할 피드 찾아오기" + feedRepository.findById(commentRequestDto.getId()));
         Feed feed = feedRepository.findById(commentRequestDto.getId()).orElseThrow(
                 () -> new NullPointerException("댓글못단다고오오오")
         );

@@ -33,7 +33,7 @@ public class Feed extends Timestamped{
     @Column(nullable = true)
     private String imageUrl;
 
-    @OneToMany(mappedBy = "feed")
+    @OneToMany(mappedBy = "feed", cascade = CascadeType.REMOVE)
     private List<Comment> comments;
 
     @OneToMany(mappedBy="feed")
