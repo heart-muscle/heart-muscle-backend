@@ -1,6 +1,7 @@
 package shop.heartmuscle.heartmuscle.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.stereotype.Service;
 import shop.heartmuscle.heartmuscle.domain.Comment;
 import shop.heartmuscle.heartmuscle.domain.Feed;
@@ -18,6 +19,7 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -47,10 +49,70 @@ public class FeedService {
         return feedRepository.findAll();
     }
 
+//    public List<Feed> getFeed(UserDetailsImpl nowUser) {
+//
+//
+//        User user = userRepository.findById(nowUser.getId()).orElseThrow(
+//                () -> new NullPointerException("해당 User 없음")
+//        );
+//
+////        nowUser.getId() = 1
+////                user_id = 1
+//
+//        feedRepository.
+//
+//        Optional<User> findByUsername(String username);
+//
+//        feedRepository.findByUserID
+//    }
+
+
+
+    // 테스트중
+//    public Feed getFeed(Long id, UserDetailsImpl nowUser) {
+//
+//        User user = userRepository.findById(nowUser.getId()).orElseThrow(
+//                () -> new NullPointerException("해당 User 없음")
+//        );
+//
+//        if (user.getId().equals(nowUser.getId())) {
+//            String writerCheck = "true";
+//        }
+//
+//        return feedRepository.findById(id).orElseThrow(
+//                () -> new NullPointerException("존재하지않습니다.")
+//        );
+//
+//        //
+//    }
+
     public Feed getFeed(Long id) {
+
         return feedRepository.findById(id).orElseThrow(
                 () -> new NullPointerException("존재하지않습니다.")
         );
+    }
+
+    public String checkUser(Long id, UserDetailsImpl nowUser) {
+
+        String check = null;
+
+        // 1
+        Long nowuser = nowUser.getId(); // 1
+        System.out.println("nowuser찾기" + nowuser);
+
+        Feed checkfeed = feedRepository.findById(id).orElseThrow(
+                () -> new NullPointerException("작성하신 피드가 아닙니다")
+        );
+
+        User findfeeduser = checkfeed.getUser();
+        Long feeduser = findfeeduser.getId();
+        System.out.println("feeduser찾기" + feeduser);
+
+        if (nowuser == feeduser) check = "true";
+        else check = "false";
+
+        return check;
     }
 
     public void delete(Long id) {
@@ -81,14 +143,12 @@ public class FeedService {
     @Transactional
     public Feed saveFeed(FeedRequestDto feedRequestDto, UserDetailsImpl nowUser) throws IOException {
         String url = null;
-        System.out.println("url:::" + url);
 
         if(feedRequestDto.getImage() != null) url = awsService.upload(feedRequestDto.getImage());
         else url = "https://teamco-spring-project.s3.ap-northeast-2.amazonaws.com/logo.png";
 
-        System.out.println("url:::::" + url);
-
-        System.out.println("여기서멈춤:::::" + userRepository.findById(nowUser.getId()));
+//        System.out.println("user id 찾기" + nowUser.getUsername());
+        System.out.println("user id 찾기" + nowUser.getId());
 
         User user = userRepository.findById(nowUser.getId()).orElseThrow(
                 () -> new NullPointerException("해당 User 없음")

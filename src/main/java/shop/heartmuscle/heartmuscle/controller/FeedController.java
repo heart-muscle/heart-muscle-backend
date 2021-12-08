@@ -51,6 +51,11 @@ public class FeedController {
         return feedService.getFeeds();
     }
 
+    @GetMapping("/feed/check/{id}")
+    public String checkUser(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl nowUser) {
+        return feedService.checkUser(id, nowUser);
+    }
+
 //    // 피드 목록((image + text)) 불러오기
 //    @GetMapping("/api/feeds+image")
 //    public List<Image> getImages() {

@@ -1,5 +1,7 @@
 package shop.heartmuscle.heartmuscle.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -53,6 +55,7 @@ public class User extends Timestamped {
     private Long kakaoId;
 
     // 내꺼
+    @JsonManagedReference
     @OneToMany(mappedBy = "user")
     private List<Feed> feeds;
 
