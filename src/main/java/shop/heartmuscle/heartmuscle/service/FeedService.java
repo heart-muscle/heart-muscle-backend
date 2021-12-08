@@ -4,12 +4,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import shop.heartmuscle.heartmuscle.domain.Comment;
 import shop.heartmuscle.heartmuscle.domain.Feed;
+import shop.heartmuscle.heartmuscle.domain.User;
 import shop.heartmuscle.heartmuscle.domain.WorkoutTag;
 import shop.heartmuscle.heartmuscle.dto.CommentRequestDto;
 import shop.heartmuscle.heartmuscle.dto.FeedRequestDto;
 import shop.heartmuscle.heartmuscle.repository.CommentRepository;
 import shop.heartmuscle.heartmuscle.repository.FeedRepository;
+import shop.heartmuscle.heartmuscle.repository.UserRepository;
 import shop.heartmuscle.heartmuscle.repository.WorkoutTagRepository;
+import shop.heartmuscle.heartmuscle.security.UserDetailsImpl;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
@@ -25,6 +28,8 @@ public class FeedService {
     private final CommentRepository commentRepository;
     private final AwsService awsService;
     private final WorkoutTagRepository workoutTagRepository;
+//    private final UserDetailsImpl nowUser;
+    private final UserRepository userRepository;
 
 //    public Feed createFeed(FeedRequestDto feedRequestDto) {
 //        Feed feed = new Feed(feedRequestDto);
@@ -68,7 +73,7 @@ public class FeedService {
     }
 
     @Transactional
-    public Feed saveFeed(FeedRequestDto feedRequestDto) throws IOException {
+    public Feed saveFeed(FeedRequestDto feedRequestDto, UserDetailsImpl nowUser) throws IOException {
         String url = null;
         System.out.println("url:::" + url);
 
@@ -76,7 +81,14 @@ public class FeedService {
         else url = "https://teamco-spring-project.s3.ap-northeast-2.amazonaws.com/logo.png";
 
         System.out.println("url:::::" + url);
-        Feed feed = new Feed(feedRequestDto, url);
+
+        System.out.println("여기서멈춤:::::" + userRepository.findById(nowUser.getId()));
+
+        User user = userRepository.findById(nowUser.getId()).orElseThrow(
+                () -> new NullPointerException("해당 User 없음")
+        );
+
+        Feed feed = new Feed(feedRequestDto, url, user);
         feedRepository.save(feed);
 
         List<String> items = Arrays.asList(feedRequestDto.getTags().split("\\s*,\\s*"));

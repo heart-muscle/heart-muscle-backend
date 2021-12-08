@@ -1,11 +1,13 @@
 package shop.heartmuscle.heartmuscle.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import shop.heartmuscle.heartmuscle.domain.Feed;
 import shop.heartmuscle.heartmuscle.dto.CommentRequestDto;
 import shop.heartmuscle.heartmuscle.dto.FeedRequestDto;
 import shop.heartmuscle.heartmuscle.repository.FeedRepository;
+import shop.heartmuscle.heartmuscle.security.UserDetailsImpl;
 import shop.heartmuscle.heartmuscle.service.FeedService;
 
 import java.io.IOException;
@@ -17,6 +19,7 @@ public class FeedController {
 
     private final FeedService feedService;
     private final FeedRepository feedRepository;
+//    private final UserDetailsImpl userDetails;
 //    private final S3Service s3Service;
 //    private final ImageService imageService;
 
@@ -33,17 +36,17 @@ public class FeedController {
 //    }
 
     // 피드 작성 (image + text)
-    @PostMapping("/feed/save")
-    public void ImageFeed(FeedRequestDto feedRequestDto) throws IOException {
+    @PostMapping("/feed")
+    public void ImageFeed(FeedRequestDto feedRequestDto, @AuthenticationPrincipal UserDetailsImpl nowUser) throws IOException {
 //        String imgPath = s3Service.upload(file);
 //        System.out.println("imgPath:::" + imgPath);
 //        imageRequestDto.setFilePath(imgPath);
 //        imageService.saveImage(imageRequestDto);
-        feedService.saveFeed(feedRequestDto);
+        feedService.saveFeed(feedRequestDto, nowUser);
     }
 
     // 피드 목록(text) 불러오기
-    @GetMapping("/feed/list")
+    @GetMapping("/feed")
     public List<Feed> getFeeds() {
         return feedService.getFeeds();
     }
@@ -62,22 +65,24 @@ public class FeedController {
     }
 
     // 피드 수정하기
-    @PutMapping("/api/feeds/{id}")
+    @PutMapping("/feed/{id}")
     public Long updateFeed(@PathVariable Long id, @RequestBody FeedRequestDto feedRequestDto) {
         feedService.update(id, feedRequestDto);
         return id;
     }
 
     // 피드 삭제하기
-    @DeleteMapping("/api/feeds/{id}")
+    @DeleteMapping("/feed/{id}")
     public Long deleteMemo(@PathVariable Long id) {
         feedRepository.deleteById(id);
         return id;
     }
 
     // 댓글작성
-    @PostMapping("/feeds/comment")
+    @PostMapping("/feed/comment")
     public void createComment(@RequestBody CommentRequestDto commentRequestDto) {
+        System.out.println("댓글값확인" + commentRequestDto.getComment());
+        System.out.println("피드아이디값확인"+ commentRequestDto.getId());
         feedService.createComment(commentRequestDto);
     }
 

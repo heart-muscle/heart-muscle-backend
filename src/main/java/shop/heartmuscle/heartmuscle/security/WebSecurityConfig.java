@@ -35,10 +35,13 @@ import shop.heartmuscle.heartmuscle.controller.JwtAuthenticationFilter;
         http.headers().frameOptions().disable();
 
         http.authorizeRequests()
+                // html 열어주기
+                .antMatchers("/*.html").permitAll()
                 // image 폴더를 login 없이 허용
                 .antMatchers("/images/**").permitAll()
                 // css 폴더를 login 없이 허용
                 .antMatchers("/css/**").permitAll()
+                .antMatchers("/feed/**").permitAll()
                 .antMatchers("/user/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/basic.js").permitAll()

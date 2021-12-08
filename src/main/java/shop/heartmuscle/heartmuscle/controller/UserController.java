@@ -8,7 +8,7 @@ import shop.heartmuscle.heartmuscle.dto.SignupRequestDto;
 import shop.heartmuscle.heartmuscle.service.UserService;
 import org.springframework.ui.Model;
 
-@Controller
+//@Controller
 public class UserController {
 
     private final UserService userService;

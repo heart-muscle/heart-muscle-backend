@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter // get 함수를 일괄적으로 만들어줍니다.
@@ -49,4 +51,12 @@ public class User extends Timestamped {
 
     @Column(nullable = true)
     private Long kakaoId;
+
+    // 내꺼
+    @OneToMany(mappedBy = "user")
+    private List<Feed> feeds;
+
+    // QnA
+//    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+//    private List<Feed> feedList = new ArrayList<Feed>();
 }
