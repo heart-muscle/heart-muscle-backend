@@ -1,10 +1,13 @@
 package shop.heartmuscle.heartmuscle.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import shop.heartmuscle.heartmuscle.dto.FeedRequestDto;
+import shop.heartmuscle.heartmuscle.dto.UserDto;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,12 +19,14 @@ import java.util.List;
 @Entity // DB 테이블 역할을 합니다.
 public class User extends Timestamped {
 
-    public User(String username, String password, String email, UserRole role) {
+    public User(String username, String password, String email, UserRole role, String nickname, String imgUrl) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.role = role;
         this.kakaoId = null;
+        this.nickname = nickname;
+        this.imgUrl = imgUrl;
     }
 
     public User(String username, String password, String email, UserRole role, Long kakaoId) {
@@ -48,6 +53,12 @@ public class User extends Timestamped {
     private String email;
 
     @Column(nullable = false)
+    private String nickname;
+
+    @Column(nullable = false)
+    private String imgUrl;
+
+    @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private UserRole role;
 
@@ -55,11 +66,13 @@ public class User extends Timestamped {
     private Long kakaoId;
 
     // 내꺼
+    //    @JsonIgnore
     @JsonManagedReference
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private List<Feed> feeds;
 
-    // QnA
-//    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-//    private List<Feed> feedList = new ArrayList<Feed>();
+    public void update(UserDto userDto, String imgUrl) {
+        this.imgUrl = imgUrl;
+        this.nickname = userDto.getNickname();
+    }
 }

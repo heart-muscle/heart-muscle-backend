@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import shop.heartmuscle.heartmuscle.dto.UserDto;
 
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
@@ -20,4 +21,7 @@ public abstract class Timestamped {
 
     @LastModifiedDate // 마지막 변경 시점
     private LocalDateTime modifiedAt;
+
+    // 이거 해야되는건지 확인해보기
+//    public abstract void update(UserDto userDto);
 }
