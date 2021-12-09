@@ -25,8 +25,12 @@
 - Github Actions - CI/CD
 - AWS S3, CloudFront, EBS - 서버 인프라
 
-###  📌 ERD
-<img width="832" alt="스크린샷 2021-12-09 오후 11 46 26" src="https://user-images.githubusercontent.com/90806892/145418039-49f1df15-486a-4daf-b0c9-50c50dfeda16.png">
 
-### 🔗링크 
+### 📌 아키텍처
+![2021-12-09_11 55 42](https://user-images.githubusercontent.com/90806892/145420223-6b7564e5-c288-45d8-8b65-6697ee9bc08f.png)
+
+###  📌 ERD
+<img width="831" alt="스크린샷 2021-12-09 오후 11 50 00" src="https://user-images.githubusercontent.com/90806892/145418555-f1c0fe4a-8f4e-4992-a9e1-a49075fe72fb.png">
+
+### 🔗 링크 
 - [1/2차 프로젝트 파이썬/파이썬](url)
