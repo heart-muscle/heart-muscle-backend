@@ -4,11 +4,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import shop.heartmuscle.heartmuscle.domain.Feed;
+import shop.heartmuscle.heartmuscle.domain.User;
 import shop.heartmuscle.heartmuscle.dto.CommentRequestDto;
 import shop.heartmuscle.heartmuscle.dto.FeedRequestDto;
+import shop.heartmuscle.heartmuscle.dto.UserDto;
 import shop.heartmuscle.heartmuscle.repository.FeedRepository;
+import shop.heartmuscle.heartmuscle.repository.UserRepository;
 import shop.heartmuscle.heartmuscle.security.UserDetailsImpl;
 import shop.heartmuscle.heartmuscle.service.FeedService;
+import shop.heartmuscle.heartmuscle.service.UserService;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,6 +23,8 @@ public class FeedController {
 
     private final FeedService feedService;
     private final FeedRepository feedRepository;
+    private final UserRepository userRepository;
+    private final UserService userService;
 //    private final UserDetailsImpl userDetails;
 //    private final S3Service s3Service;
 //    private final ImageService imageService;
@@ -42,6 +48,8 @@ public class FeedController {
 //        System.out.println("imgPath:::" + imgPath);
 //        imageRequestDto.setFilePath(imgPath);
 //        imageService.saveImage(imageRequestDto);
+        System.out.println("유저네임여기같이들어오는지보자" + feedRequestDto.getUsername());
+        System.out.println("피드이미지여기같이들어오는지보자" + feedRequestDto.getImage());
         feedService.saveFeed(feedRequestDto, nowUser);
     }
 
@@ -49,6 +57,34 @@ public class FeedController {
     @GetMapping("/feed")
     public List<Feed> getFeeds() {
         return feedService.getFeeds();
+    }
+
+    // 전체 유저 불러오기
+    @GetMapping("/user")
+    public List<User> getUsers() {
+        return userRepository.findAll();
+    }
+
+    // 유저 한명 불러오기
+    @GetMapping("/user/{id}")
+    public User getFeed(@PathVariable String id) {
+        return userService.getUser(id);
+    }
+
+    // 유저 한명 불러오기
+    @GetMapping("/user/detail/{id}")
+    public User getUser(@PathVariable String id) {
+        return userService.getUser(id);
+    }
+
+    // 유저 프로필 수정하기
+    @PostMapping("/user/detail")
+    public String updateUser(UserDto userDto) throws IOException {
+        System.out.println("수정할 피드 아이디" + userDto.getUsername());
+        System.out.println("수정할 피드 이미지" + userDto.getImgUrl());
+        System.out.println("수정할 피드 이미지" + userDto.getNickname());
+        userService.update(userDto);
+        return "완료!";
     }
 
     @GetMapping("/feed/check/{id}")

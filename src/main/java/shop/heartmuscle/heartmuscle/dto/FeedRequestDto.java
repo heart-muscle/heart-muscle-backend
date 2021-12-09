@@ -12,5 +12,6 @@ public class FeedRequestDto {
     private String title;
     private String content;
     private String tags;
+    private String username;
     private MultipartFile image;
 }

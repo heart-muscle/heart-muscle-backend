@@ -35,11 +35,15 @@ public class Feed extends Timestamped{
     @Column(nullable = true)
     private String imageUrl;
 
+    @Column(nullable = false)
+    private String username;
+
     @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
     @OneToMany(mappedBy="feed", cascade = CascadeType.ALL)
     private Set<WorkoutTag> tags;
+
 
 //    @JsonIgnore // 이게 무한루프에 빠지는 걸 방지해줌
     @JsonBackReference
@@ -62,6 +66,7 @@ public class Feed extends Timestamped{
         this.title = feedRequestDto.getTitle();
         this.content = feedRequestDto.getContent();
         this.imageUrl = imageUrl;
+        this.username = feedRequestDto.getUsername();
         this.user = user;
     }
 

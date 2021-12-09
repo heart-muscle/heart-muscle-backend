@@ -9,6 +9,7 @@ import shop.heartmuscle.heartmuscle.domain.User;
 import shop.heartmuscle.heartmuscle.domain.WorkoutTag;
 import shop.heartmuscle.heartmuscle.dto.CommentRequestDto;
 import shop.heartmuscle.heartmuscle.dto.FeedRequestDto;
+import shop.heartmuscle.heartmuscle.dto.UserDto;
 import shop.heartmuscle.heartmuscle.repository.CommentRepository;
 import shop.heartmuscle.heartmuscle.repository.FeedRepository;
 import shop.heartmuscle.heartmuscle.repository.UserRepository;
