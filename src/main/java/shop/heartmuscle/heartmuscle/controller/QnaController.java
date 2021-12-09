@@ -1,11 +1,14 @@
 package shop.heartmuscle.heartmuscle.controller;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import shop.heartmuscle.heartmuscle.domain.Qna;
 import shop.heartmuscle.heartmuscle.dto.QnaRequestDto;
+import shop.heartmuscle.heartmuscle.security.UserDetailsImpl;
 import shop.heartmuscle.heartmuscle.service.QnaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -15,8 +18,9 @@ public class QnaController {
     private final QnaService qnaService;
 
     @PostMapping("/qna")
-    public Qna setQna(@RequestBody QnaRequestDto qnaRequestDto){
-        return qnaService.setQna(qnaRequestDto);
+    public Qna setQna(@RequestBody QnaRequestDto qnaRequestDto, @AuthenticationPrincipal UserDetailsImpl nowUser) throws IOException {
+        System.out.println(qnaRequestDto.getUsername());
+        return qnaService.setQna(qnaRequestDto, nowUser);
     }
 
     @GetMapping("/qna")

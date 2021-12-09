@@ -40,10 +40,11 @@ public class User extends Timestamped {
     // ID가 자동으로 생성 및 증가합니다.
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @Column(name = "user_id")
     private Long id;
 
     // 반드시 값을 가지도록 합니다.
-    @Column(nullable = false)
+    @Column(name = "username", nullable = false)
     private String username;
 
     @Column(nullable = false)
@@ -75,4 +76,8 @@ public class User extends Timestamped {
         this.imgUrl = imgUrl;
         this.nickname = userDto.getNickname();
     }
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user")
+    private List<Qna> qna;
 }

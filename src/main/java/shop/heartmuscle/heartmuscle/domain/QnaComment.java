@@ -1,6 +1,8 @@
 package shop.heartmuscle.heartmuscle.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
 import shop.heartmuscle.heartmuscle.dto.QnaCommentRequestDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,11 +10,12 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @NoArgsConstructor
-@Data
+@Setter
+@Getter
 @Entity
 public class QnaComment extends Timestamped {
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
 

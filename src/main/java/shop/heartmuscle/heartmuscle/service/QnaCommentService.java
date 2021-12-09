@@ -19,7 +19,7 @@ public class QnaCommentService {
     @Transactional
     public void setQnaComment(QnaCommentRequestDto qnaCommentRequestDto){
         Qna qna = qnaRepository.findById(qnaCommentRequestDto.getId()).orElseThrow(
-                () -> new NullPointerException("해당 아이디가 존재하지 않습니다.")
+                () -> new NullPointerException("댓글못단다고오오오")
         );
         QnaComment qnaComment = new QnaComment(qnaCommentRequestDto, qna);
         qnaCommentRepository.save(qnaComment);

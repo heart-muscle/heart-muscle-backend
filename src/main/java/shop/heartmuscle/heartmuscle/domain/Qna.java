@@ -1,5 +1,6 @@
 package shop.heartmuscle.heartmuscle.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import shop.heartmuscle.heartmuscle.dto.QnaRequestDto;
 import lombok.*;
 
@@ -9,28 +10,37 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity
-@Builder
-@ToString
 public class Qna extends Timestamped {
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
 
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
+    @Column(name = "content", nullable = false)
     private String content;
 
-    @OneToMany(mappedBy="qna")
+    @Column(name = "username", nullable = false)
+    private String username;
+
+    @OneToMany(mappedBy = "qna", cascade = CascadeType.REMOVE)
     private List<QnaComment> comment;
 
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    public Qna(QnaRequestDto requestDto) {
+
+    public Qna(QnaRequestDto requestDto, User user) {
         this.title = requestDto.getTitle();
         this.content = requestDto.getContent();
+        this.user = user;
+        this.username = requestDto.getUsername();
     }
 
     public void update(QnaRequestDto requestDto) {
