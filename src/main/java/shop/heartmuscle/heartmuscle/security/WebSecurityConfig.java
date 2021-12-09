@@ -70,6 +70,8 @@ import shop.heartmuscle.heartmuscle.controller.JwtAuthenticationFilter;
                 .logoutUrl("/user/logout")
                 .permitAll();
 
+        http.cors();
+
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
