@@ -1,3 +1,6 @@
+
+![KakaoTalk_Photo_2021-10-18-11-47-13 002](https://user-images.githubusercontent.com/90806892/145344234-26948b4d-f55c-499d-90d6-b611637cda92.png)
+
 # heart-muscle-be
 
 teamco의 heart-muscle 스프링 프로젝트 repo입니다.
@@ -26,4 +29,3 @@ teamco의 heart-muscle 스프링 프로젝트 repo입니다.
 - Git - 형상관리
 - Github Actions - CI/CD
 - AWS S3, CloudFront, EBS - 서버 인프라
-
