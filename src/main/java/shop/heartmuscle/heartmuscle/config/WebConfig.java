@@ -14,7 +14,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:63342", "http://127.0.0.1:8080", "https://d2lushdgt6wy3k.cloudfront.net", "https://www.heartmuscle.shop", "http://www.heartmuscle.shop", "www.heartmuscle.shop")
+                .allowedOrigins("http://localhost:63342", "http://127.0.0.1:8080", "https://d2lushdgt6wy3k.cloudfront.net", "https://www.heartmuscle.shop", "http://www.heartmuscle.shop", "www.heartmuscle.shop", "https://www.heartmusclebackend.shop")
                 .allowedMethods("GET", "POST", "DELETE", "PUT", "OPTIONS", "HEAD");
 
     }
