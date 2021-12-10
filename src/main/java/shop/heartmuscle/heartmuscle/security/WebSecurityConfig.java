@@ -54,6 +54,9 @@ import shop.heartmuscle.heartmuscle.controller.JwtAuthenticationFilter;
                 .antMatchers(HttpMethod.GET, "/feed/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/qna/**").permitAll()
                 .antMatchers(HttpMethod.OPTIONS,"/path/to/allow").permitAll()
+                .antMatchers("/swagger-ui.html").permitAll()
+                .antMatchers("/swagger-ui/**").permitAll()
+                .antMatchers("/v3/api-docs/**").permitAll()
                 // 그 외 모든 요청은 인증과정 필요
                 .anyRequest().authenticated()
                 .and()
