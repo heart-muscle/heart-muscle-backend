@@ -46,6 +46,10 @@ dependencies {
     // null 처리
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+    // API 문서 자동화, Swagger
+    implementation 'org.springdoc:springdoc-openapi-ui:1.5.13'
+
+
 }
 
 test {
