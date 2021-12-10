@@ -8,7 +8,7 @@ public class SwaggerConfig {
     @Bean
     public GroupedOpenApi publicApi() {
         return GroupedOpenApi.builder()
-                .group("shop.heartmuscle.mytrip")
+                .group("shop.heartmuscle.heartmuscle")
                 .pathsToMatch("/**")
                 .packagesToScan("shop.heartmuscle.heartmuscle.controller")
                 .build();
