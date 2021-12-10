@@ -49,6 +49,12 @@ public class FeedController {
         return feedService.getFeed(id);
     }
 
+    // 사용자 확인 후 수정/삭제 가능
+    @GetMapping("/feed/check/{id}")
+    public String checkUser(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl nowUser) {
+        return feedService.checkUser(id, nowUser);
+    }
+
     // 피드 수정하기
     @Operation(description = "피드 수정하기", method = "PUT")
     @PutMapping("/feed/{id}")
