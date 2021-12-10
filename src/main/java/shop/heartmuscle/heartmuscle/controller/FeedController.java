@@ -25,6 +25,7 @@ public class FeedController {
     private final FeedService feedService;
     private final FeedRepository feedRepository;
 
+
     // 피드 작성 (image + text)
     @Operation(description = "피드 저장하기", method = "POST")
     @PostMapping("/feed")

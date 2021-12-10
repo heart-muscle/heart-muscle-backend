@@ -12,5 +12,6 @@ public class SwaggerConfig {
                 .pathsToMatch("/**")
                 .packagesToScan("shop.heartmuscle.heartmuscle.controller")
                 .build();
+
     }
 }

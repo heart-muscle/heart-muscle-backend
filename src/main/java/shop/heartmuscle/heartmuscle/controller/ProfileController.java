@@ -18,9 +18,9 @@ import java.util.List;
 @RestController
 public class ProfileController {
 
+
     private final UserRepository userRepository;
     private UserService userService;
-
 
     // 전체 유저 불러오기
     @Operation(description = "전체 유저 불러오기", method = "GET")
