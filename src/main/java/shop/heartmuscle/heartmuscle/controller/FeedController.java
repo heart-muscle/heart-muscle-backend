@@ -24,6 +24,8 @@ public class FeedController {
 
     private final FeedService feedService;
     private final FeedRepository feedRepository;
+    private final UserRepository userRepository;
+    private final UserService userService;
 
 
     // 피드 작성 (image + text)
@@ -42,17 +44,55 @@ public class FeedController {
         return feedService.getFeeds();
     }
 
+    // 전체 유저 불러오기
+    @Operation(description = "전체 유저 불러오기", method = "GET")
+    @GetMapping("/user")
+    public List<User> getUsers() {
+        return userRepository.findAll();
+    }
+
+    // 유저 한명 불러오기
+    @Operation(description = "특정 유저 정보 불러오기", method = "GET")
+    @GetMapping("/user/{id}")
+    public User getFeed(@PathVariable String id) {
+        return userService.getUser(id);
+    }
+
+    // 유저 한명 불러오기
+    @Operation(description = "특정 유저 정보 불러오기", method = "GET")
+    @GetMapping("/user/detail/{id}")
+    public User getUser(@PathVariable String id) {
+        return userService.getUser(id);
+    }
+
+    // 유저 프로필 수정하기
+    @Operation(description = "유저 프로필 수정하기", method = "POST")
+    @PostMapping("/user/detail")
+    public String updateUser(UserDto userDto) throws IOException {
+        System.out.println("수정할 피드 아이디" + userDto.getUsername());
+        System.out.println("수정할 피드 이미지" + userDto.getImgUrl());
+        System.out.println("수정할 피드 이미지" + userDto.getNickname());
+        userService.update(userDto);
+        return "완료!";
+    }
+
+    @GetMapping("/feed/check/{id}")
+    public String checkUser(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl nowUser) {
+        return feedService.checkUser(id, nowUser);
+    }
+
+//    // 피드 목록((image + text)) 불러오기
+//    @GetMapping("/api/feeds+image")
+//    public List<Image> getImages() {
+//        return imageService.getImages();
+//    }
+
+
     // 피드 상세보기
     @Operation(description = "피드 상세보기", method = "GET")
     @GetMapping("/feed/{id}")
     public Feed getFeed(@PathVariable Long id) {
         return feedService.getFeed(id);
-    }
-
-    // 사용자 확인 후 수정/삭제 가능
-    @GetMapping("/feed/check/{id}")
-    public String checkUser(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl nowUser) {
-        return feedService.checkUser(id, nowUser);
     }
 
     // 피드 수정하기
@@ -82,4 +122,10 @@ public class FeedController {
         System.out.println("피드아이디값확인"+ commentRequestDto.getId());
         feedService.createComment(commentRequestDto);
     }
+
+//    @PostMapping("/images/comment")
+//    public void createImageComment(@RequestBody CommentRequestDto commentRequestDto) {
+//        imageService.createImageComment(commentRequestDto);
+//    }
+
 }
