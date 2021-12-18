@@ -2,12 +2,15 @@ package shop.heartmuscle.heartmuscle.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import shop.heartmuscle.heartmuscle.domain.Feed;
 import shop.heartmuscle.heartmuscle.domain.User;
 import shop.heartmuscle.heartmuscle.dto.CommentRequestDto;
 import shop.heartmuscle.heartmuscle.dto.FeedRequestDto;
+import shop.heartmuscle.heartmuscle.dto.FeedResponseDto;
 import shop.heartmuscle.heartmuscle.dto.UserDto;
 import shop.heartmuscle.heartmuscle.repository.FeedRepository;
 import shop.heartmuscle.heartmuscle.repository.UserRepository;
@@ -26,6 +29,7 @@ public class FeedController {
     private final FeedRepository feedRepository;
     private final UserRepository userRepository;
     private final UserService userService;
+    private final ModelMapper modelMapper;
 
 
     // 피드 작성 (image + text)
@@ -37,11 +41,13 @@ public class FeedController {
         feedService.saveFeed(feedRequestDto, nowUser);
     }
 
-    // 피드 목록(text) 불러오기
     @Operation(description = "피드 목록 불러오기", method = "GET")
+    // 피드 목록 dto 로 반환하기
     @GetMapping("/feed")
-    public List<Feed> getFeeds() {
-        return feedService.getFeeds();
+    public List<FeedResponseDto.Response> getFeedResponse() {
+        List<Feed> feeds = feedService.getFeeds();
+        List<FeedResponseDto.Response> response = modelMapper.map(feeds, new TypeToken<List<FeedResponseDto.Response>>() {}.getType());
+        return response;
     }
 
     // 전체 유저 불러오기
