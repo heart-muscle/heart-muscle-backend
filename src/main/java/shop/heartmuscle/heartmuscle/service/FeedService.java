@@ -1,6 +1,7 @@
 package shop.heartmuscle.heartmuscle.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.stereotype.Service;
 import shop.heartmuscle.heartmuscle.domain.Comment;
@@ -47,7 +48,7 @@ public class FeedService {
 //    }
 
     public List<Feed> getFeeds() {
-        return feedRepository.findAll();
+        return feedRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
     }
 
 //    public List<Feed> getFeed(UserDetailsImpl nowUser) {
