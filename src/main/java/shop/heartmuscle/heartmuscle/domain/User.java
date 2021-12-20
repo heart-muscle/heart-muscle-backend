@@ -66,18 +66,20 @@ public class User extends Timestamped {
     @Column(nullable = true)
     private Long kakaoId;
 
-    // 내꺼
-    //    @JsonIgnore
     @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private List<Feed> feeds;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<Qna> qna;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<QnaComment> qnaComment;
 
     public void update(UserDto userDto, String imgUrl) {
         this.imgUrl = imgUrl;
         this.nickname = userDto.getNickname();
     }
-
-    @JsonManagedReference
-    @OneToMany(mappedBy = "user")
-    private List<Qna> qna;
 }
