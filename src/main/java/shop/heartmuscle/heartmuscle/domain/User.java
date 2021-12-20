@@ -29,12 +29,14 @@ public class User extends Timestamped {
         this.imgUrl = imgUrl;
     }
 
-    public User(String username, String password, String email, UserRole role, Long kakaoId) {
+    public User(String username, String password, String email, UserRole role, Long kakaoId, String imgUrl) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.role = role;
         this.kakaoId = kakaoId;
+        this.imgUrl = imgUrl;
+        this.nickname = username;
     }
 
     // ID가 자동으로 생성 및 증가합니다.

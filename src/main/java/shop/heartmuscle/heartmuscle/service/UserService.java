@@ -96,7 +96,8 @@ public class UserService {
             // ROLE = 사용자
             UserRole role = UserRole.USER;
 
-            kakaoUser = new User(nickname, encodedPassword, email, role, kakaoId);
+            String imgUrl = "https://teamco-bucket.s3.ap-northeast-2.amazonaws.com/Profile-PNG-Clipart.png";
+            kakaoUser = new User(nickname, encodedPassword, email, role, kakaoId, imgUrl);
             userRepository.save(kakaoUser);
         }
 
@@ -140,5 +141,10 @@ public class UserService {
 
         user.update(userDto, url);
         return user.getId();
+    }
+
+    public Optional<User> getProfile(UserDetailsImpl userDetails) {
+        String user = userDetails.getUsername();
+        return userRepository.findByUsername(user);
     }
 }
