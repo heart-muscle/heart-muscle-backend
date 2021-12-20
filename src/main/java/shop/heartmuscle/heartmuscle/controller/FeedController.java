@@ -123,10 +123,8 @@ public class FeedController {
     // 댓글작성
     @Operation(description = "피드에 댓글 작성하기", method = "POST")
     @PostMapping("/feed/comment")
-    public void createComment(@RequestBody CommentRequestDto commentRequestDto) {
-        System.out.println("댓글값확인" + commentRequestDto.getComment());
-        System.out.println("피드아이디값확인"+ commentRequestDto.getId());
-        feedService.createComment(commentRequestDto);
+    public void createComment(@RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl nowUser) throws IOException {
+        feedService.createComment(commentRequestDto, nowUser);
     }
 
 //    @PostMapping("/images/comment")
