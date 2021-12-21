@@ -31,6 +31,7 @@ import shop.heartmuscle.heartmuscle.controller.JwtAuthenticationFilter;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.cors().and();
         http.csrf().disable();
         http.headers().frameOptions().disable();
 
@@ -52,6 +53,7 @@ import shop.heartmuscle.heartmuscle.controller.JwtAuthenticationFilter;
                 .antMatchers("/checkSignup").permitAll()
                 .antMatchers(HttpMethod.GET,"/actuator/health").permitAll()
                 .antMatchers(HttpMethod.GET, "/feed/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/user/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/qna/**").permitAll()
                 .antMatchers(HttpMethod.OPTIONS,"/path/to/allow").permitAll()
                 .antMatchers("/swagger-ui.html").permitAll()
