@@ -19,6 +19,6 @@ public class FeedResponseDto {
         private List comments;
         private User user;
         private Set tags;
-        private String imageUrl;
+        private String url;
     }
 }

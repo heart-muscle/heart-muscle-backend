@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import shop.heartmuscle.heartmuscle.domain.Feed;
@@ -42,12 +44,56 @@ public class FeedController {
     }
 
     @Operation(description = "피드 목록 불러오기", method = "GET")
-    // 피드 목록 dto 로 반환하기
+    // 피드 목록 dto 로 반환하기 [ version 1 ]
     @GetMapping("/feed")
     public List<FeedResponseDto.Response> getFeedResponse() {
         List<Feed> feeds = feedService.getFeeds();
         List<FeedResponseDto.Response> response = modelMapper.map(feeds, new TypeToken<List<FeedResponseDto.Response>>() {}.getType());
         return response;
+    }
+
+//    // 피드 목록 반환하기 + 페이징 [ version 1 ]
+//    @GetMapping("/feed/page")
+//    public Page<FeedResponseDto.Response> getFeedResponse(@RequestParam("page") int page,
+//                                                          @RequestParam("size") int size,
+//                                                          @RequestParam("sortBy") String sortBy,
+//                                                          @RequestParam("isAsc") boolean isAsc) {
+//        page = page - 1;
+//        Page<Feed> feeds = feedService.getFeedss(page , size, sortBy, isAsc);
+//        List<Feed> feed = feeds.getContent();
+//        Feed feedcheck = feed.get(0);
+//        User feeduser = feedcheck.getUser();
+//        String username = feeduser.getUsername();
+//        String email = feeduser.getEmail();
+//        System.out.println("이게맞을려나" + username);
+//        System.out.println("이게맞을려나" + email);
+//
+//        Page<FeedResponseDto.Response> response = modelMapper.map(feeds, new TypeToken<Page<FeedResponseDto.Response>>() {}.getType());
+////        List user = response.getContent();
+//        return response;
+//    }
+
+//    // 피드 목록 반환하기 [ version 2 ]
+//    @GetMapping("/feed")
+//    public List<Feed> getFeedResponse1() {
+//        List<Feed> feeds = feedService.getFeeds();
+//        return feeds;
+//    }
+//
+    // 피드 목록 반환하기 + 페이징 [ version 2 ]
+    @GetMapping("/feed/page")
+    public Page<Feed> getFeedResponses (@RequestParam("page") int page,
+                                        @RequestParam("size") int size,
+                                        @RequestParam("sortBy") String sortBy,
+                                        @RequestParam("isAsc") boolean isAsc) {
+//        Page<Feed> feeds = feedService.getFeedss(page , size, sortBy, isAsc);
+        System.out.println(page);
+        System.out.println(size);
+        System.out.println(sortBy);
+        System.out.println(isAsc);
+
+        page = page - 1;
+        return feedService.getFeedss(page , size, sortBy, isAsc);
     }
 
     // 전체 유저 불러오기
@@ -83,7 +129,8 @@ public class FeedController {
     }
 
     @GetMapping("/feed/check/{id}")
-    public String checkUser(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl nowUser) {
+    public String checkUser(@PathVariable Long id,
+                            @AuthenticationPrincipal UserDetailsImpl nowUser) {
         return feedService.checkUser(id, nowUser);
     }
 
@@ -95,10 +142,18 @@ public class FeedController {
 
 
     // 피드 상세보기
-    @Operation(description = "피드 상세보기", method = "GET")
+//    @Operation(description = "피드 상세보기", method = "GET")
+//    @GetMapping("/feed/{id}")
+//    public Feed getFeed(@PathVariable Long id) {
+//        return feedService.getFeed(id);
+//    }
+
+    // 피드 상세보기 [ version 2 ]
     @GetMapping("/feed/{id}")
-    public Feed getFeed(@PathVariable Long id) {
-        return feedService.getFeed(id);
+    public FeedResponseDto.Response getFeed(@PathVariable Long id) {
+        Feed feed = feedService.getFeed(id);
+        FeedResponseDto.Response response = modelMapper.map(feed, new TypeToken<FeedResponseDto.Response>() {}.getType());
+        return response;
     }
 
     // 피드 수정하기

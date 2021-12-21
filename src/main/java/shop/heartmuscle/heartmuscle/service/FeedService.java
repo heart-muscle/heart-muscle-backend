@@ -1,6 +1,9 @@
 package shop.heartmuscle.heartmuscle.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.stereotype.Service;
@@ -51,6 +54,15 @@ public class FeedService {
         return feedRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
     }
 
+    // 테스트
+    public Page<Feed> getFeedss(int page, int size, String sortBy, boolean isAsc) {
+        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        System.out.println("여긴어떻게나오는지보자" + feedRepository.findAll(pageable));
+        return feedRepository.findAll(pageable);
+    }
+
 //    public List<Feed> getFeed(UserDetailsImpl nowUser) {
 //
 //
@@ -99,17 +111,18 @@ public class FeedService {
 
         String check = null;
 
-        // 1
-        Long nowuser = nowUser.getId(); // 1
-        System.out.println("nowuser찾기" + nowuser);
+        // 토큰값으로 현재 로그인중인 아이디 조회 (nowuser)
+        Long nowuser = nowUser.getId();
 
+        // -------------------------------------------------------
+
+        // 피드 작성자 아이디 조회 (feeduser)
         Feed checkfeed = feedRepository.findById(id).orElseThrow(
-                () -> new NullPointerException("작성하신 피드가 아닙니다")
+                () -> new NullPointerException("피드가 존재하지 않습니다.")
         );
 
-        User findfeeduser = checkfeed.getUser();
-        Long feeduser = findfeeduser.getId();
-        System.out.println("feeduser찾기" + feeduser);
+        User findfeeduser = checkfeed.getUser(); // 해당 User
+        Long feeduser = findfeeduser.getId(); // user - id
 
         if (nowuser == feeduser) check = "true";
         else check = "false";
@@ -152,11 +165,13 @@ public class FeedService {
     public Feed saveFeed(FeedRequestDto feedRequestDto, UserDetailsImpl nowUser) throws IOException {
         String url = null;
 
+        System.out.println("없으면안되는데" + feedRequestDto.getImage());
+
         if(feedRequestDto.getImage() != null) url = awsService.upload(feedRequestDto.getImage());
         else url = "https://teamco-spring-project.s3.ap-northeast-2.amazonaws.com/logo.png";
 
 //        System.out.println("user id 찾기" + nowUser.getUsername());
-        System.out.println("user id 찾기" + nowUser.getId());
+//        System.out.println("user id 찾기" + nowUser.getId());
 
         User user = userRepository.findById(nowUser.getId()).orElseThrow(
                 () -> new NullPointerException("해당 User 없음")
