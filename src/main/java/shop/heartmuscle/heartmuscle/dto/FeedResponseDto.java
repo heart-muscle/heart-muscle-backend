@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import shop.heartmuscle.heartmuscle.domain.User;
 
+import java.util.List;
 import java.util.Set;
 
 public class FeedResponseDto {
@@ -15,6 +16,7 @@ public class FeedResponseDto {
         private Long id;
         private String title;
         private String content;
+        private List comments;
         private User user;
         private Set tags;
         private String imageUrl;
