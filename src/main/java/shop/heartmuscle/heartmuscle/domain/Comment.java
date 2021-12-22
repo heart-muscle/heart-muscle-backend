@@ -24,7 +24,7 @@ public class Comment extends Timestamped {
     @Column(nullable = false)
     private String commentUser;
 
-    @JsonIgnore // 이게 무한루프에 빠지는 걸 방지해줌
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "feed_id", nullable = false)
     private Feed feed;
