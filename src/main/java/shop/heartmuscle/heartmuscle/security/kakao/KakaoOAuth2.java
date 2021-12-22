@@ -78,8 +78,9 @@ public class KakaoOAuth2 {
 //            email = "noEmail";
 //        }
         String nickname = body.getJSONObject("properties").getString("nickname");
-        System.out.println(body);
+        System.out.println("경중" + body);
         System.out.println(body.getJSONObject("kakao_account"));
+        System.out.println("harim");
         return new KakaoUserInfo(id, email, nickname);
     }
 }
