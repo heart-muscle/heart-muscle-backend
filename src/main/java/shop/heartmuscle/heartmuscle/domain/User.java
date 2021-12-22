@@ -1,16 +1,13 @@
 package shop.heartmuscle.heartmuscle.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import shop.heartmuscle.heartmuscle.dto.FeedRequestDto;
 import shop.heartmuscle.heartmuscle.dto.UserDto;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Setter
@@ -66,8 +63,7 @@ public class User extends Timestamped {
     @Column(nullable = true)
     private Long kakaoId;
 
-    //    @JsonIgnore
-    @JsonManagedReference
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Feed> feeds;
 

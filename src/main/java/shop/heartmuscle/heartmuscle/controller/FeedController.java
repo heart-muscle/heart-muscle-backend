@@ -5,16 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import shop.heartmuscle.heartmuscle.domain.Feed;
 import shop.heartmuscle.heartmuscle.domain.User;
-import shop.heartmuscle.heartmuscle.dto.CommentRequestDto;
-import shop.heartmuscle.heartmuscle.dto.FeedRequestDto;
-import shop.heartmuscle.heartmuscle.dto.FeedResponseDto;
-import shop.heartmuscle.heartmuscle.dto.UserDto;
-import shop.heartmuscle.heartmuscle.repository.FeedRepository;
+import shop.heartmuscle.heartmuscle.dto.*;
 import shop.heartmuscle.heartmuscle.repository.UserRepository;
 import shop.heartmuscle.heartmuscle.security.UserDetailsImpl;
 import shop.heartmuscle.heartmuscle.service.FeedService;
@@ -28,7 +23,6 @@ import java.util.List;
 public class FeedController {
 
     private final FeedService feedService;
-    private final FeedRepository feedRepository;
     private final UserRepository userRepository;
     private final UserService userService;
     private final ModelMapper modelMapper;
@@ -44,124 +38,73 @@ public class FeedController {
     }
 
     @Operation(description = "피드 목록 불러오기", method = "GET")
-    // 피드 목록 dto 로 반환하기 [ version 1 ]
+
+    // 피드 목록 dto 로 반환하기 [ version 1 / 4 ]
+    //    @GetMapping("/feed")
+    //    public List<FeedResponseDto.Response> getFeedResponse() {
+    //        List<Feed> feeds = feedService.getFeeds();
+    //        List<FeedResponseDto.Response> response = modelMapper.map(feeds, new TypeToken<List<FeedResponseDto.Response>>() {
+    //        }.getType());
+    //        return response;
+    //    }
+
+    // 피드 목록 반환하기 [ version 2 / 4 ]
+    //    @GetMapping("/feed")
+    //    public List<Feed> getFeedResponse1() {
+    //        List<Feed> feeds = feedService.getFeeds();
+    //        return feeds;
+    //    }
+
+    // 피드 목록 dto 로 반환하기 + 페이징 [ version 3 / 4 ]
+    //    @GetMapping("/feed")
+    //    public Page<FeedResponseDto.Response> getFeedResponse(@RequestParam("page") int page,
+    //                                                          @RequestParam("size") int size,
+    //                                                          @RequestParam("sortBy") String sortBy,
+    //                                                          @RequestParam("isAsc") boolean isAsc) {
+    //        page = page - 1;
+    //        Page<Feed> feeds = feedService.getFeeds(page , size, sortBy, isAsc);
+    //
+    //        Page<FeedResponseDto.Response> response = modelMapper.map(feeds, new TypeToken<Page<FeedResponseDto.Response>>() {}.getType());
+    //        return response;
+    //    }
+
+    // 피드 목록 반환하기 + 페이징 [ version 4 / 4 ]
     @GetMapping("/feed")
-    public List<FeedResponseDto.Response> getFeedResponse() {
-        List<Feed> feeds = feedService.getFeeds();
-        List<FeedResponseDto.Response> response = modelMapper.map(feeds, new TypeToken<List<FeedResponseDto.Response>>() {}.getType());
-        return response;
-    }
-
-//    // 피드 목록 반환하기 + 페이징 [ version 1 ]
-//    @GetMapping("/feed/page")
-//    public Page<FeedResponseDto.Response> getFeedResponse(@RequestParam("page") int page,
-//                                                          @RequestParam("size") int size,
-//                                                          @RequestParam("sortBy") String sortBy,
-//                                                          @RequestParam("isAsc") boolean isAsc) {
-//        page = page - 1;
-//        Page<Feed> feeds = feedService.getFeedss(page , size, sortBy, isAsc);
-//        List<Feed> feed = feeds.getContent();
-//        Feed feedcheck = feed.get(0);
-//        User feeduser = feedcheck.getUser();
-//        String username = feeduser.getUsername();
-//        String email = feeduser.getEmail();
-//        System.out.println("이게맞을려나" + username);
-//        System.out.println("이게맞을려나" + email);
-//
-//        Page<FeedResponseDto.Response> response = modelMapper.map(feeds, new TypeToken<Page<FeedResponseDto.Response>>() {}.getType());
-////        List user = response.getContent();
-//        return response;
-//    }
-
-//    // 피드 목록 반환하기 [ version 2 ]
-//    @GetMapping("/feed")
-//    public List<Feed> getFeedResponse1() {
-//        List<Feed> feeds = feedService.getFeeds();
-//        return feeds;
-//    }
-//
-    // 피드 목록 반환하기 + 페이징 [ version 2 ]
-    @GetMapping("/feed/page")
-    public Page<Feed> getFeedResponses (@RequestParam("page") int page,
-                                        @RequestParam("size") int size,
-                                        @RequestParam("sortBy") String sortBy,
-                                        @RequestParam("isAsc") boolean isAsc) {
-//        Page<Feed> feeds = feedService.getFeedss(page , size, sortBy, isAsc);
-        System.out.println(page);
-        System.out.println(size);
-        System.out.println(sortBy);
-        System.out.println(isAsc);
-
+    public Page<Feed> getFeedResponses(@RequestParam("page") int page,
+                                       @RequestParam("size") int size,
+                                       @RequestParam("sortBy") String sortBy,
+                                       @RequestParam("isAsc") boolean isAsc) {
         page = page - 1;
-        return feedService.getFeedss(page , size, sortBy, isAsc);
+        return feedService.getFeeds(page, size, sortBy, isAsc);
     }
 
-    // 전체 유저 불러오기
-    @Operation(description = "전체 유저 불러오기", method = "GET")
-    @GetMapping("/user")
-    public List<User> getUsers() {
-        return userRepository.findAll();
-    }
-
-    // 유저 한명 불러오기
-    @Operation(description = "특정 유저 정보 불러오기", method = "GET")
-    @GetMapping("/user/{id}")
-    public User getFeed(@PathVariable String id) {
-        return userService.getUser(id);
-    }
-
-    // 유저 한명 불러오기
-    @Operation(description = "특정 유저 정보 불러오기", method = "GET")
-    @GetMapping("/user/detail/{id}")
-    public User getUser(@PathVariable String id) {
-        return userService.getUser(id);
-    }
-
-    // 유저 프로필 수정하기
-    @Operation(description = "유저 프로필 수정하기", method = "POST")
-    @PostMapping("/user/detail")
-    public String updateUser(UserDto userDto) throws IOException {
-        System.out.println("수정할 피드 아이디" + userDto.getUsername());
-        System.out.println("수정할 피드 이미지" + userDto.getImgUrl());
-        System.out.println("수정할 피드 이미지" + userDto.getNickname());
-        userService.update(userDto);
-        return "완료!";
-    }
-
+    // 현재 로그인 사용자 - 피드 작성자 일치 여부 확인
     @GetMapping("/feed/check/{id}")
     public String checkUser(@PathVariable Long id,
                             @AuthenticationPrincipal UserDetailsImpl nowUser) {
         return feedService.checkUser(id, nowUser);
     }
 
-//    // 피드 목록((image + text)) 불러오기
-//    @GetMapping("/api/feeds+image")
-//    public List<Image> getImages() {
-//        return imageService.getImages();
-//    }
+    // 피드 상세보기 - dto [ version 1 / 2 ]
+        @Operation(description = "피드 상세보기", method = "GET")
+        @GetMapping("/feed/{id}")
+        public Feed getFeed(@PathVariable Long id) {
+            return feedService.getFeed(id);
+        }
 
-
-    // 피드 상세보기
-//    @Operation(description = "피드 상세보기", method = "GET")
-//    @GetMapping("/feed/{id}")
-//    public Feed getFeed(@PathVariable Long id) {
-//        return feedService.getFeed(id);
-//    }
-
-    // 피드 상세보기 [ version 2 ]
-    @GetMapping("/feed/{id}")
-    public FeedResponseDto.Response getFeed(@PathVariable Long id) {
-        Feed feed = feedService.getFeed(id);
-        FeedResponseDto.Response response = modelMapper.map(feed, new TypeToken<FeedResponseDto.Response>() {}.getType());
-        return response;
-    }
+    // 피드 상세보기 + dto [ version 2 ]
+    //    @GetMapping("/feed/{id}")
+    //    public FeedResponseDto.Response getFeed(@PathVariable Long id) {
+    //        Feed feed = feedService.getFeed(id);
+    //        FeedResponseDto.Response response = modelMapper.map(feed, new TypeToken<FeedResponseDto.Response>() {
+    //        }.getType());
+    //        return response;
+    //    }
 
     // 피드 수정하기
     @Operation(description = "피드 수정하기", method = "PUT")
     @PutMapping("/feed/{id}")
     public Long updateFeed(@PathVariable Long id, @RequestBody FeedRequestDto feedRequestDto) {
-        System.out.println("수정할 피드 아이디" + id);
-        System.out.println("수정할 피드 내용" + feedRequestDto.getTitle());
         feedService.update(id, feedRequestDto);
         return id;
     }
@@ -171,7 +114,6 @@ public class FeedController {
     @DeleteMapping("/feed/{id}")
     public Long deleteFeed(@PathVariable Long id) {
         feedService.delete(id);
-//        feedRepository.deleteById(id);
         return id;
     }
 
@@ -182,9 +124,43 @@ public class FeedController {
         feedService.createComment(commentRequestDto, nowUser);
     }
 
-//    @PostMapping("/images/comment")
-//    public void createImageComment(@RequestBody CommentRequestDto commentRequestDto) {
-//        imageService.createImageComment(commentRequestDto);
-//    }
+    // ----------------------------------마이페이지---------------------------------- //
+    // 전체 유저 불러오기
+    @Operation(description = "전체 유저 불러오기", method = "GET")
+    @GetMapping("/user")
+    public List<User> getUsers() {
+        return userRepository.findAll();
+    }
 
+    // 유저 정보 불러오기 [ version 1 ]
+    //    @Operation(description = "특정 유저 정보 불러오기", method = "GET")
+    //    @GetMapping("/user/{id}")
+    //    public User getUser(@PathVariable String id) {
+    //        return userService.getUser(id);
+    //    }
+
+    // 유저 정보 불러오기( id = user_id )
+    //    @GetMapping("/user/{id}")
+    //    public UserResponseDto.Response getUserInfo(@PathVariable Long id) {
+    //        User user = userService.getUserByID(id);
+    //        UserResponseDto.Response response = modelMapper.map(user, new TypeToken<UserResponseDto.Response>() {}.getType());
+    //        return response;
+    //    }
+
+    // 유저 정보 불러오기( id = username )
+    @Operation(description = "특정 유저 정보 불러오기", method = "GET")
+    @GetMapping("/user/{id}")
+    public UserResponseDto.Response getUser(@PathVariable String id) {
+        User user = userService.getUserByUsername(id);
+        UserResponseDto.Response response = modelMapper.map(user, new TypeToken<UserResponseDto.Response>() {}.getType());
+        return response;
+    }
+
+    // 유저 프로필 수정하기
+    @Operation(description = "유저 프로필 수정하기", method = "POST")
+    @PostMapping("/user/detail")
+    public String updateUser(UserDto userDto) throws IOException {
+        userService.update(userDto);
+        return "완료!";
+    }
 }

@@ -9,7 +9,6 @@ import shop.heartmuscle.heartmuscle.domain.Feed;
 import java.util.List;
 
 public interface FeedRepository extends JpaRepository<Feed, Long> {
-//    Page<Feed> findAll(Pageable pageable);
 
     @EntityGraph(attributePaths = {"comments","tags"})
     List<Feed> findAllByTagsName(String name);
@@ -19,8 +18,4 @@ public interface FeedRepository extends JpaRepository<Feed, Long> {
     @Override
     List<Feed> findAll();
     Page<Feed> findAll(Pageable pageable);
-
-//    List<Feed> findAllByUserIdAndType(Long userId, String type);
-//    void deleteByContentIdAndUserId(String contentId, Long userId);
-//    Feed findByContentIdAndUserId(String contentId, Long userId);
 }
