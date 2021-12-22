@@ -42,6 +42,7 @@ public class UserApiController {
 
     @PostMapping(value = "/login/kakao")
     public ResponseEntity<?> createAuthenticationTokenByKakao(@RequestBody SocialLoginDto socialLoginDto) throws Exception {
+        System.out.println("컨트롤러경중경중");
         String username = userService.kakaoLogin(socialLoginDto.getToken());
         final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         final String token = jwtTokenUtil.generateToken(userDetails);

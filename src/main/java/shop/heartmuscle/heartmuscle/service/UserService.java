@@ -74,6 +74,7 @@ public class UserService {
 
     public String kakaoLogin(String token) {
         // 카카오 OAuth2 를 통해 카카오 사용자 정보 조회
+        System.out.println("카카오로그인경중경중");
         KakaoUserInfo userInfo = kakaoOAuth2.getUserInfo(token);
         Long kakaoId = userInfo.getId();
         String nickname = userInfo.getNickname();
@@ -105,7 +106,7 @@ public class UserService {
         Authentication kakaoUsernamePassword = new UsernamePasswordAuthenticationToken(username, password);
         Authentication authentication = authenticationManager.authenticate(kakaoUsernamePassword);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
+        System.out.println("리턴되기직전경중경중");
         return username;
     }
 
