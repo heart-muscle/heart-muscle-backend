@@ -57,7 +57,7 @@ public class UserApiController {
         final String token = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(new JwtResponse(token, userDetails.getUsername()));
     }
-    @RequestMapping(value = "/checkSignup", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/availability", method = RequestMethod.POST)
     public String checkSignup(HttpServletRequest request, Model model) {
         String id = request.getParameter("id"); int rowcount = userService.checkSignup(id);
         return String.valueOf(rowcount);
