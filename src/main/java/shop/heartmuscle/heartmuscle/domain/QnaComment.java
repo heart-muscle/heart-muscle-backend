@@ -27,9 +27,18 @@ public class QnaComment extends Timestamped {
     @JoinColumn(name="qna_id", nullable = false)
     private Qna qna;
 
-    public QnaComment(QnaCommentRequestDto requestDto, Qna qna) {
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    public QnaComment(QnaCommentRequestDto requestDto, Qna qna, User user) {
         this.comment = requestDto.getComment();
         this.qna = qna;
+        this.user = user;
+    }
+
+    public void update(String comment) {
+        this.comment = comment;
     }
 
 }

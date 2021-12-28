@@ -24,23 +24,20 @@ public class Qna extends Timestamped {
     @Column(name = "content", nullable = false)
     private String content;
 
-    @Column(name = "username", nullable = false)
-    private String username;
 
-    @OneToMany(mappedBy = "qna", cascade = CascadeType.REMOVE)
-    private List<QnaComment> comment;
-
-    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @OneToMany(mappedBy = "qna", cascade = CascadeType.REMOVE)
+    private List<QnaComment> comment;
 
 
     public Qna(QnaRequestDto requestDto, User user) {
         this.title = requestDto.getTitle();
         this.content = requestDto.getContent();
         this.user = user;
-        this.username = requestDto.getUsername();
+//        this.username = requestDto.getUsername();
     }
 
     public void update(QnaRequestDto requestDto) {

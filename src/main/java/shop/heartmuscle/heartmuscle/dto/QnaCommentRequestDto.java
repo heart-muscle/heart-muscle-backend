@@ -8,7 +8,9 @@ import lombok.Setter;
 @Setter
 @Getter
 public class QnaCommentRequestDto {
-    private Long id;
-    private String username;
     private String comment;
+
+    public QnaCommentRequestDto(String comment) {
+        this.comment = comment;
+    }
 }

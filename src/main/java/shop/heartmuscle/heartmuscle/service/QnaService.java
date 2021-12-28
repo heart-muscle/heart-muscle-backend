@@ -1,5 +1,9 @@
 package shop.heartmuscle.heartmuscle.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import shop.heartmuscle.heartmuscle.domain.Qna;
 import shop.heartmuscle.heartmuscle.domain.User;
 import shop.heartmuscle.heartmuscle.dto.QnaRequestDto;
@@ -23,23 +27,27 @@ public class QnaService {
     private final QnaCommentRepository qnaCommentRepository;
 
     //전체 게시글 조회
-    public List<Qna> getQna() {
-        return qnaRepository.findAll();
+//    public List<Qna> getQna() {
+//        return qnaRepository.findAll();
+//    }
+
+    public Page<Qna> getQna(int page, int size, String sortBy, boolean isAsc) {
+        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        return qnaRepository.findAll(pageable);
     }
 
     //게시글 작성
     @Transactional
     public Qna setQna(QnaRequestDto qnaRequestDto, UserDetailsImpl nowUser) throws IOException {
-        System.out.println(qnaRequestDto.getUsername());
-        System.out.println(qnaRequestDto.getContent());
-        System.out.println(nowUser.getUsername());
+
         User user = userRepository.findById(nowUser.getId()).orElseThrow(
                 () -> new NullPointerException("해당 User 없음")
         );
 
-
         Qna qna = new Qna (qnaRequestDto, user);
-        System.out.println(qna.getUser() + qna.getUsername() + qna.getId());
         qnaRepository.save(qna);
         return qna;
     }

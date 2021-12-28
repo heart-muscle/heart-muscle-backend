@@ -69,12 +69,16 @@ public class User extends Timestamped {
     @OneToMany(mappedBy = "user")
     private List<Feed> feeds;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<Qna> qna;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<QnaComment> qnaComment;
+
     public void update(UserDto userDto, String imgUrl) {
         this.imgUrl = imgUrl;
         this.nickname = userDto.getNickname();
     }
-
-    @JsonManagedReference
-    @OneToMany(mappedBy = "user")
-    private List<Qna> qna;
 }

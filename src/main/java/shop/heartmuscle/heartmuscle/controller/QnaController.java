@@ -1,5 +1,6 @@
 package shop.heartmuscle.heartmuscle.controller;
 
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import shop.heartmuscle.heartmuscle.domain.Qna;
 import shop.heartmuscle.heartmuscle.dto.QnaRequestDto;
@@ -19,14 +20,22 @@ public class QnaController {
 
     @PostMapping("/qna")
     public Qna setQna(@RequestBody QnaRequestDto qnaRequestDto, @AuthenticationPrincipal UserDetailsImpl nowUser) throws IOException {
-        System.out.println(qnaRequestDto.getUsername());
         return qnaService.setQna(qnaRequestDto, nowUser);
     }
 
     @GetMapping("/qna")
-    public List<Qna> getQna(){
-        return qnaService.getQna();
+    public Page<Qna> getQna(@RequestParam("page") int page,
+                            @RequestParam("size") int size,
+                            @RequestParam("sortBy") String sortBy,
+                            @RequestParam("isAsc") boolean isAsc){
+        System.out.println(page);
+        System.out.println(size);
+        System.out.println(sortBy);
+        System.out.println(isAsc);
+        page = page - 1;
+        return qnaService.getQna(page , size, sortBy, isAsc);
     }
+
 
     @GetMapping("/qna/{id}")
     public Qna getQna(@PathVariable Long id){
