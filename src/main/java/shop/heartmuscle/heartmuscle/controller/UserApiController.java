@@ -6,19 +6,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
-import shop.heartmuscle.heartmuscle.dto.JwtResponse;
-import shop.heartmuscle.heartmuscle.dto.SignupRequestDto;
-import shop.heartmuscle.heartmuscle.dto.SocialLoginDto;
-import shop.heartmuscle.heartmuscle.dto.UserDto;
+import shop.heartmuscle.heartmuscle.domain.User;
+import shop.heartmuscle.heartmuscle.dto.*;
+import shop.heartmuscle.heartmuscle.security.UserDetailsImpl;
 import shop.heartmuscle.heartmuscle.security.kakao.KakaoOAuth2;
 import shop.heartmuscle.heartmuscle.service.UserService;
 import shop.heartmuscle.heartmuscle.util.JwtTokenUtil;
 import org.springframework.ui.Model;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -41,6 +42,7 @@ public class UserApiController {
 
     @PostMapping(value = "/login/kakao")
     public ResponseEntity<?> createAuthenticationTokenByKakao(@RequestBody SocialLoginDto socialLoginDto) throws Exception {
+        System.out.println("컨트롤러경중경중");
         String username = userService.kakaoLogin(socialLoginDto.getToken());
         final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         final String token = jwtTokenUtil.generateToken(userDetails);
@@ -55,10 +57,15 @@ public class UserApiController {
         final String token = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(new JwtResponse(token, userDetails.getUsername()));
     }
-    @RequestMapping(value = "/checkSignup", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/availability", method = RequestMethod.POST)
     public String checkSignup(HttpServletRequest request, Model model) {
         String id = request.getParameter("id"); int rowcount = userService.checkSignup(id);
         return String.valueOf(rowcount);
+    }
+
+    @GetMapping("/user/profile")
+    public Optional<User> getUser(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return userService.getProfile(userDetails);
     }
 
 

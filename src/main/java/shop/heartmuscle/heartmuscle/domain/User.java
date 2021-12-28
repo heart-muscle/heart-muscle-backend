@@ -1,16 +1,13 @@
 package shop.heartmuscle.heartmuscle.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import shop.heartmuscle.heartmuscle.dto.FeedRequestDto;
 import shop.heartmuscle.heartmuscle.dto.UserDto;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Setter
@@ -29,12 +26,14 @@ public class User extends Timestamped {
         this.imgUrl = imgUrl;
     }
 
-    public User(String username, String password, String email, UserRole role, Long kakaoId) {
+    public User(String username, String password, String email, UserRole role, Long kakaoId, String imgUrl) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.role = role;
         this.kakaoId = kakaoId;
+        this.imgUrl = imgUrl;
+        this.nickname = username;
     }
 
     // ID가 자동으로 생성 및 증가합니다.
@@ -50,7 +49,7 @@ public class User extends Timestamped {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String email;
 
     @Column(nullable = false)
@@ -66,8 +65,8 @@ public class User extends Timestamped {
     @Column(nullable = true)
     private Long kakaoId;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
     private List<Feed> feeds;
 
     @JsonIgnore

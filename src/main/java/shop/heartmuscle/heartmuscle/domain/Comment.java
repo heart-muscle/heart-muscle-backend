@@ -21,24 +21,18 @@ public class Comment extends Timestamped {
     @Column(nullable = false)
     private String comment;
 
-//    @JsonIgnore // 이게 무한루프에 빠지는 걸 방지해줌
-//    @ManyToOne
-//    @JoinColumn(name = "feed_id", nullable = false)
-//    private Feed feed;
+    @Column(nullable = false)
+    private String commentUser;
 
-    @JsonIgnore // 이게 무한루프에 빠지는 걸 방지해줌
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "feed_id", nullable = false)
     private Feed feed;
 
-//    public Comment(CommentRequestDto commentRequestDto, Feed feed) {
-//        this.comment = commentRequestDto.getComment();
-//        this.feed = feed;
-//    }
-
-    public Comment(CommentRequestDto commentRequestDto, Feed feed) {
+    public Comment(CommentRequestDto commentRequestDto, Feed feed, String commentUser) {
         this.comment = commentRequestDto.getComment();
         this.feed = feed;
+        this.commentUser = commentUser;
     }
 
 }

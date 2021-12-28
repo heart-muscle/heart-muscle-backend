@@ -74,6 +74,7 @@ public class UserService {
 
     public String kakaoLogin(String token) {
         // 카카오 OAuth2 를 통해 카카오 사용자 정보 조회
+        System.out.println("카카오로그인경중경중");
         KakaoUserInfo userInfo = kakaoOAuth2.getUserInfo(token);
         Long kakaoId = userInfo.getId();
         String nickname = userInfo.getNickname();
@@ -96,7 +97,8 @@ public class UserService {
             // ROLE = 사용자
             UserRole role = UserRole.USER;
 
-            kakaoUser = new User(nickname, encodedPassword, email, role, kakaoId);
+            String imgUrl = "https://teamco-bucket.s3.ap-northeast-2.amazonaws.com/Profile-PNG-Clipart.png";
+            kakaoUser = new User(nickname, encodedPassword, email, role, kakaoId, imgUrl);
             userRepository.save(kakaoUser);
         }
 
@@ -104,7 +106,7 @@ public class UserService {
         Authentication kakaoUsernamePassword = new UsernamePasswordAuthenticationToken(username, password);
         Authentication authentication = authenticationManager.authenticate(kakaoUsernamePassword);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
+        System.out.println("리턴되기직전경중경중");
         return username;
     }
 
@@ -117,8 +119,13 @@ public class UserService {
         }
     }
 
-    public User getUser(String id) {
+    public User getUserByID(Long id) {
+        return userRepository.findById(id).orElseThrow(
+                () -> new NullPointerException("존재하지않습니다.")
+        );
+    }
 
+    public User getUserByUsername(String id) {
         return userRepository.findByUsername(id).orElseThrow(
                 () -> new NullPointerException("존재하지않습니다.")
         );
@@ -140,5 +147,10 @@ public class UserService {
 
         user.update(userDto, url);
         return user.getId();
+    }
+
+    public Optional<User> getProfile(UserDetailsImpl userDetails) {
+        String user = userDetails.getUsername();
+        return userRepository.findByUsername(user);
     }
 }
