@@ -119,8 +119,13 @@ public class UserService {
         }
     }
 
-    public User getUser(String id) {
+    public User getUserByID(Long id) {
+        return userRepository.findById(id).orElseThrow(
+                () -> new NullPointerException("존재하지않습니다.")
+        );
+    }
 
+    public User getUserByUsername(String id) {
         return userRepository.findByUsername(id).orElseThrow(
                 () -> new NullPointerException("존재하지않습니다.")
         );
