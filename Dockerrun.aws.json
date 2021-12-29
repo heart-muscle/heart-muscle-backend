@@ -1,7 +1,7 @@
 {
   "AWSEBDockerrunVersion": "1",
   "Image": {
-    "Name": "589116431655.dkr.ecr.ap-northeast-2.amazonaws.com/hmdocker",
+    "Name": "589116431655.dkr.ecr.ap-northeast-2.amazonaws.com/heartmuscledocker",
     "Update": "true"
   },
   "Ports": [
