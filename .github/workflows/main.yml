@@ -41,7 +41,7 @@ jobs:
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: heartmuscledocker
+          ECR_REPOSITORY: heartmuscle
           IMAGE_TAG: latest
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
@@ -60,7 +60,7 @@ jobs:
           cp Dockerrun.aws.json deploy/Dockerrun.aws.json
           cd deploy && zip -r deploy.zip .
       - name: Beanstalk Deploy
-        uses: einaregilsson/beanstalk-deploy@v14
+        uses: einaregilsson/beanstalk-deploy@v16
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
