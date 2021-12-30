@@ -5,8 +5,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import shop.heartmuscle.heartmuscle.domain.Qna;
+import shop.heartmuscle.heartmuscle.domain.QnaComment;
 import shop.heartmuscle.heartmuscle.domain.User;
 import shop.heartmuscle.heartmuscle.dto.QnaRequestDto;
+import shop.heartmuscle.heartmuscle.dto.ResultResponseDto;
 import shop.heartmuscle.heartmuscle.repository.QnaCommentRepository;
 import shop.heartmuscle.heartmuscle.repository.QnaRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,7 @@ import shop.heartmuscle.heartmuscle.repository.UserRepository;
 import shop.heartmuscle.heartmuscle.security.UserDetailsImpl;
 
 import javax.transaction.Transactional;
+import javax.xml.transform.Result;
 import java.io.IOException;
 import java.util.List;
 
@@ -26,11 +29,7 @@ public class QnaService {
     private final QnaRepository qnaRepository;
     private final QnaCommentRepository qnaCommentRepository;
 
-    //전체 게시글 조회
-//    public List<Qna> getQna() {
-//        return qnaRepository.findAll();
-//    }
-
+    //게시판 조회 및 페이징 처리
     public Page<Qna> getQna(int page, int size, String sortBy, boolean isAsc) {
         Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
         Sort sort = Sort.by(direction, sortBy);
@@ -61,20 +60,42 @@ public class QnaService {
 
     //게시글 수정
     @Transactional // SQL 쿼리가 일어나야 함을 스프링에게 알려줌
-    public Long update(Long id, QnaRequestDto requestDto) {
+    public ResultResponseDto update(Long id, QnaRequestDto requestDto, UserDetailsImpl nowUser) {
+        Long nowUserId = nowUser.getId();
+
         Qna qnaUpdate = qnaRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("해당 아이디가 존재하지 않습니다.")
+                () -> new NullPointerException("해당 게시글이 존재하지 않습니다.")
         );
-        qnaUpdate.update(requestDto);
-        return qnaUpdate.getId();
+
+        User findQnaUser = qnaUpdate.getUser();
+        Long QnaUser = findQnaUser.getId();
+
+        if (nowUserId == QnaUser) {
+            qnaUpdate.update(requestDto);
+            return new ResultResponseDto("success", "게시글이 수정 되었습니다.");
+        } else {
+            return new ResultResponseDto("fail", "게시글 수정 권한이 없습니다. .");
+        }
     }
 
     //게시글 삭제
     @Transactional
-    public Long delete(Long id) {
-        qnaRepository.deleteById(id);
-        return id;
-    }
+    public ResultResponseDto delete(Long id, UserDetailsImpl nowUser) {
+        Long nowUserId = nowUser.getId();
 
+        Qna qna = qnaRepository.findById(id).orElseThrow(
+                () -> new NullPointerException("해당 게시글이 존재하지 않습니다.")
+        );
+
+        User findQnaUser = qna.getUser();
+        Long QnaUser = findQnaUser.getId();
+
+        if (nowUserId == QnaUser) {
+            qnaRepository.delete(qna);
+            return new ResultResponseDto("success", "게시글이 삭제 되었습니다.");
+        } else {
+            return new ResultResponseDto("fail", "게시글 삭제 권한이 없습니다. .");
+        }
+    }
 
 }

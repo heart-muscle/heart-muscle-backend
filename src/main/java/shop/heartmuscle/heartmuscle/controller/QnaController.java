@@ -1,9 +1,11 @@
 package shop.heartmuscle.heartmuscle.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import shop.heartmuscle.heartmuscle.domain.Qna;
 import shop.heartmuscle.heartmuscle.dto.QnaRequestDto;
+import shop.heartmuscle.heartmuscle.dto.ResultResponseDto;
 import shop.heartmuscle.heartmuscle.security.UserDetailsImpl;
 import shop.heartmuscle.heartmuscle.service.QnaService;
 import lombok.RequiredArgsConstructor;
@@ -28,10 +30,6 @@ public class QnaController {
                             @RequestParam("size") int size,
                             @RequestParam("sortBy") String sortBy,
                             @RequestParam("isAsc") boolean isAsc){
-        System.out.println(page);
-        System.out.println(size);
-        System.out.println(sortBy);
-        System.out.println(isAsc);
         page = page - 1;
         return qnaService.getQna(page , size, sortBy, isAsc);
     }
@@ -42,14 +40,19 @@ public class QnaController {
         return qnaService.getQna(id);
     }
 
+    @Operation(description = "게시글 수정, 로그인 필요", method = "PUT")
     @PutMapping("/qna/{id}")
-    public Long updateQna(@PathVariable Long id, @RequestBody QnaRequestDto requestDto) {
-        return qnaService.update(id, requestDto);
+    public ResultResponseDto updateQna(@PathVariable Long id,
+                                       @RequestBody QnaRequestDto requestDto,
+                                       @AuthenticationPrincipal UserDetailsImpl nowUser) {
+        return qnaService.update(id, requestDto, nowUser);
     }
 
+    @Operation(description = "게시글 삭제, 로그인 필요", method = "DELETE")
     @DeleteMapping("/qna/{id}")
-    public Long deleteLecture(@PathVariable Long id) {
-        return qnaService.delete(id);
+    public ResultResponseDto deleteQna(@PathVariable Long id,
+                                       @AuthenticationPrincipal UserDetailsImpl nowUser) {
+        return qnaService.delete(id, nowUser);
     }
 
 }
