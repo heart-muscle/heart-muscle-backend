@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up JDK 1.8
-        uses: actions/setup-java@v1.4.3
+        uses: actions/setup-java@v1
         with:
           java-version: 1.8
 
@@ -44,7 +44,7 @@ jobs:
           ECR_REPOSITORY: heartmuscle
           IMAGE_TAG: latest
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker buildx build --platform=linux/amd64 -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
       - name: Get current time
@@ -56,11 +56,12 @@ jobs:
 
       - name: Generate deployment package
         run: |
-          mkdir -p deploy
+          mkdir -p deploy/.platform/nginx/conf.d
           cp Dockerrun.aws.json deploy/Dockerrun.aws.json
+          cp .platform/nginx/conf.d/proxy.conf deploy/.platform/nginx/conf.d/proxy.conf
           cd deploy && zip -r deploy.zip .
       - name: Beanstalk Deploy
-        uses: einaregilsson/beanstalk-deploy@v16
+        uses: einaregilsson/beanstalk-deploy@v14
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
