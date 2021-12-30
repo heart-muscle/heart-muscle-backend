@@ -1,73 +1,53 @@
-name: Build and Push Docker Image
+# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+
+name: heart-muscle-backend
+
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   pull_request:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
-  build-and-push-image:
+  build:
+
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
+      - uses: actions/checkout@v2
       - name: Set up JDK 1.8
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
-          java-version: 1.8
-
+          java-version: '8'
+          distribution: 'adopt'
+          cache: gradle
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-
       - name: Build with Gradle
-        run: ./gradlew clean build -x test
-      #        run: gradle build -x test
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-2
-
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-
-      - name: Build, tag, and push image to Amazon ECR
-        id: build-image
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: newdocker
-          IMAGE_TAG: latest
-        run: |
-          docker buildx build --platform=linux/amd64 -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+        run: ./gradlew build -x test
       - name: Get current time
         uses: 1466587594/get-current-time@v2
         id: current-time
         with:
-          format: YYYYMMDD_HH-mm-ss
+          format: YYYY-MM-DDTHH-mm-ss
           utcOffset: "+09:00"
 
-      - name: Generate deployment package
+      - name: Generate deployment package # (1)
         run: |
-          mkdir -p deploy/.platform/nginx/conf.d
-          cp Dockerrun.aws.json deploy/Dockerrun.aws.json
-          cp .platform/nginx/conf.d/proxy.conf deploy/.platform/nginx/conf.d/proxy.conf
+          mkdir -p deploy
+          cp build/libs/*.jar deploy/application.jar
+          cp Procfile deploy/Procfile
+          cp -r .ebextensions deploy/.ebextensions
+          cp -r .platform deploy/.platform
           cd deploy && zip -r deploy.zip .
-      - name: Beanstalk Deploy
-        uses: einaregilsson/beanstalk-deploy@v14
+      - name: Deploy to EB # (2)
+        uses: einaregilsson/beanstalk-deploy@v19
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          application_name: dockerdocker
-          environment_name: Dockerdocker-env
-          version_label: earth-docker-${{steps.current-time.outputs.formattedTime}}
+          application_name: heart-muscle
+          environment_name: Heartmuscle-env
+          version_label: github-action-${{steps.current-time.outputs.formattedTime}}
           region: ap-northeast-2
           deployment_package: deploy/deploy.zip
-          wait_for_environment_recovery: 200

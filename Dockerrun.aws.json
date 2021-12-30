@@ -1,12 +1,12 @@
-{
-  "AWSEBDockerrunVersion": "1",
-  "Image": {
-    "Name": "589116431655.dkr.ecr.ap-northeast-2.amazonaws.com/newdocker",
-    "Update": "true"
-  },
-  "Ports": [
-    {
-      "ContainerPort": 8080
-    }
-  ]
-}
+//{
+//  "AWSEBDockerrunVersion": "1",
+//  "Image": {
+//    "Name": "589116431655.dkr.ecr.ap-northeast-2.amazonaws.com/newdocker",
+//    "Update": "true"
+//  },
+//  "Ports": [
+//    {
+//      "ContainerPort": 8080
+//    }
+//  ]
+//}
