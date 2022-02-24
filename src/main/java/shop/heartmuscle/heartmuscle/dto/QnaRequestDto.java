@@ -1,15 +1,28 @@
 package shop.heartmuscle.heartmuscle.dto;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import shop.heartmuscle.heartmuscle.domain.Qna;
 
 @Setter
 @Getter
-@RequiredArgsConstructor
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class QnaRequestDto {
-    private String username;
-    private final String title;
-    private final String content;
+    private String title;
+    private String content;
+
+    public QnaRequestDto(final Qna qna) {
+        this.title = qna.getTitle();
+        this.content = qna.getContent();
+    }
+
+    public static Qna toQna(final QnaRequestDto qnaRequestDto) {
+        return Qna.builder()
+                .title(qnaRequestDto.getTitle())
+                .content(qnaRequestDto.getContent())
+                .build();
+
+    }
+
 }

@@ -2,12 +2,14 @@ package shop.heartmuscle.heartmuscle.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import shop.heartmuscle.heartmuscle.domain.Qna;
 import shop.heartmuscle.heartmuscle.dto.QnaRequestDto;
 import shop.heartmuscle.heartmuscle.dto.ResultResponseDto;
 import shop.heartmuscle.heartmuscle.security.UserDetailsImpl;
-import shop.heartmuscle.heartmuscle.service.QnaService;
+import shop.heartmuscle.heartmuscle.service.qna.QnaServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,11 +20,21 @@ import java.util.List;
 @RestController
 public class QnaController {
 
-    private final QnaService qnaService;
+    private final QnaServiceImpl qnaService;
 
     @PostMapping("/qna")
-    public Qna setQna(@RequestBody QnaRequestDto qnaRequestDto, @AuthenticationPrincipal UserDetailsImpl nowUser) throws IOException {
-        return qnaService.setQna(qnaRequestDto, nowUser);
+    public ResponseEntity<?> createQna(@RequestBody QnaRequestDto qnaRequestDto, @AuthenticationPrincipal UserDetailsImpl nowUser) throws IOException {
+
+
+        Qna qnaEntity = QnaRequestDto.toQna(qnaRequestDto);
+
+        qnaEntity.setUser(nowUser.getUser());
+
+        List<Qna> entities = qnaService.createQna(qnaEntity);
+
+
+
+        return new ResponseEntity<>(entities, HttpStatus.OK);
     }
 
     @GetMapping("/qna")
