@@ -12,9 +12,6 @@ public interface QnaService {
 
     Qna createQna(Qna qnaEntity);
 
-//    List<Qna> createQna(Qna qnaEntity);
-
-//    Page<Qna> getQnaAll(int page, int size, String sortBy, boolean isAsc);
     Page<Qna> getQnaAll(Pageable pageable);
 
     Qna getQnaOne(Long id);

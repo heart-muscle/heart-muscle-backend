@@ -3,22 +3,15 @@ package shop.heartmuscle.heartmuscle.service.qna;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.hateoas.EntityModel;
 import org.springframework.transaction.annotation.Transactional;
 import shop.heartmuscle.heartmuscle.domain.Qna;
 import shop.heartmuscle.heartmuscle.domain.User;
 import shop.heartmuscle.heartmuscle.dto.request.QnaRequestDto;
 import shop.heartmuscle.heartmuscle.dto.ResultResponseDto;
-import shop.heartmuscle.heartmuscle.dto.response.QnaResponseDto;
-import shop.heartmuscle.heartmuscle.repository.QnaCommentRepository;
 import shop.heartmuscle.heartmuscle.repository.QnaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import shop.heartmuscle.heartmuscle.repository.UserRepository;
 import shop.heartmuscle.heartmuscle.security.UserDetailsImpl;
-
-
-import java.util.List;
 
 @Slf4j
 @Transactional(readOnly = true)
@@ -27,16 +20,6 @@ import java.util.List;
 public class QnaServiceImpl implements QnaService{
 
     private final QnaRepository qnaRepository;
-
-    //게시판 조회 및 페이징 처리
-//    @Override
-//    public Page<Qna> getQnaAll(int page, int size, String sortBy, boolean isAsc) {
-//        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
-//        Sort sort = Sort.by(direction, sortBy);
-//        Pageable pageable = PageRequest.of(page, size, sort);
-//
-//        return qnaRepository.findAll(pageable);
-//    }
 
     @Override
     public Page<Qna> getQnaAll(Pageable pageable) {
@@ -86,7 +69,7 @@ public class QnaServiceImpl implements QnaService{
     }
 
     //게시글 수정
-    @Transactional // SQL 쿼리가 일어나야 함을 스프링에게 알려줌
+    @Transactional
     public ResultResponseDto update(Long id, QnaRequestDto requestDto, UserDetailsImpl nowUser) {
         Long nowUserId = nowUser.getId();
 

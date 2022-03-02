@@ -39,36 +39,6 @@ public class FeedController {
 
     @Operation(description = "피드 목록 불러오기", method = "GET")
 
-    // 피드 목록 dto 로 반환하기 [ version 1 / 4 ]
-    //    @GetMapping("/feed")
-    //    public List<FeedResponseDto.Response> getFeedResponse() {
-    //        List<Feed> feeds = feedService.getFeeds();
-    //        List<FeedResponseDto.Response> response = modelMapper.map(feeds, new TypeToken<List<FeedResponseDto.Response>>() {
-    //        }.getType());
-    //        return response;
-    //    }
-
-    // 피드 목록 반환하기 [ version 2 / 4 ]
-    //    @GetMapping("/feed")
-    //    public List<Feed> getFeedResponse1() {
-    //        List<Feed> feeds = feedService.getFeeds();
-    //        return feeds;
-    //    }
-
-    // 피드 목록 dto 로 반환하기 + 페이징 [ version 3 / 4 ]
-    //    @GetMapping("/feed")
-    //    public Page<FeedResponseDto.Response> getFeedResponse(@RequestParam("page") int page,
-    //                                                          @RequestParam("size") int size,
-    //                                                          @RequestParam("sortBy") String sortBy,
-    //                                                          @RequestParam("isAsc") boolean isAsc) {
-    //        page = page - 1;
-    //        Page<Feed> feeds = feedService.getFeeds(page , size, sortBy, isAsc);
-    //
-    //        Page<FeedResponseDto.Response> response = modelMapper.map(feeds, new TypeToken<Page<FeedResponseDto.Response>>() {}.getType());
-    //        return response;
-    //    }
-
-    // 피드 목록 반환하기 + 페이징 [ version 4 / 4 ]
     @GetMapping("/feed")
     public Page<Feed> getFeedResponses(@RequestParam("page") int page,
                                        @RequestParam("size") int size,
@@ -91,15 +61,6 @@ public class FeedController {
         public Feed getFeed(@PathVariable Long id) {
             return feedService.getFeed(id);
         }
-
-    // 피드 상세보기 + dto [ version 2 ]
-    //    @GetMapping("/feed/{id}")
-    //    public FeedResponseDto.Response getFeed(@PathVariable Long id) {
-    //        Feed feed = feedService.getFeed(id);
-    //        FeedResponseDto.Response response = modelMapper.map(feed, new TypeToken<FeedResponseDto.Response>() {
-    //        }.getType());
-    //        return response;
-    //    }
 
     // 피드 수정하기
     @Operation(description = "피드 수정하기", method = "PUT")
@@ -132,20 +93,6 @@ public class FeedController {
         return userRepository.findAll();
     }
 
-    // 유저 정보 불러오기 [ version 1 ]
-    //    @Operation(description = "특정 유저 정보 불러오기", method = "GET")
-    //    @GetMapping("/user/{id}")
-    //    public User getUser(@PathVariable String id) {
-    //        return userService.getUser(id);
-    //    }
-
-    // 유저 정보 불러오기( id = user_id )
-    //    @GetMapping("/user/{id}")
-    //    public UserResponseDto.Response getUserInfo(@PathVariable Long id) {
-    //        User user = userService.getUserByID(id);
-    //        UserResponseDto.Response response = modelMapper.map(user, new TypeToken<UserResponseDto.Response>() {}.getType());
-    //        return response;
-    //    }
 
     // 유저 정보 불러오기( id = username )
     @Operation(description = "특정 유저 정보 불러오기", method = "GET")
