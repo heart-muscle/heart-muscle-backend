@@ -24,8 +24,7 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.h2database:h2'
-    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
-//    implementation group: 'mysql', name: 'mysql-connector-java', version: '6.0.3'
+
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.projectlombok:lombok'
@@ -33,9 +32,6 @@ dependencies {
 
     //클라우드
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
-
-//    //타임리프
-//    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
     //시큐리티 관련
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
@@ -49,10 +45,8 @@ dependencies {
     // API 문서 자동화, Swagger
     implementation 'org.springdoc:springdoc-openapi-ui:1.5.13'
 
-    // moderMapper
-    implementation 'org.modelmapper:modelmapper:2.4.4'
-
-
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-hateoas
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-hateoas', version: '2.6.4'
 }
 
 test {
