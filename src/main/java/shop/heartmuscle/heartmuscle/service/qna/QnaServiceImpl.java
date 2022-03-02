@@ -32,15 +32,12 @@ public class QnaServiceImpl implements QnaService{
     @Override
     @Transactional
     public Qna createQna(Qna qna) {
-        System.out.println("qna.toString() = " + qna.toString());
 
         validate(qna);
 
         qnaRepository.save(qna);
 
-        System.out.println("확인");
         log.info("Qna Id: {} is saved.", qna.getId());
-        System.out.println("널값" + qnaRepository.findById(qna.getId()));
         return qnaRepository.findById(qna.getId()).orElseThrow(
                 () -> new NullPointerException("해당 아이디가 존재하지 않습니다.")
         );
