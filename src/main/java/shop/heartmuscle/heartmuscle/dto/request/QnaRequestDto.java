@@ -1,4 +1,4 @@
-package shop.heartmuscle.heartmuscle.dto;
+package shop.heartmuscle.heartmuscle.dto.request;
 
 import lombok.*;
 import shop.heartmuscle.heartmuscle.domain.Qna;
