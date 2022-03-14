@@ -67,6 +67,7 @@ public class QnaServiceImpl implements QnaService{
 
     //게시글 수정
     @Transactional
+    @Override
     public ResultResponseDto update(Long id, QnaRequestDto requestDto, UserDetailsImpl nowUser) {
         Long nowUserId = nowUser.getId();
 
@@ -87,6 +88,7 @@ public class QnaServiceImpl implements QnaService{
 
     //게시글 삭제
     @Transactional
+    @Override
     public ResultResponseDto delete(Long id, UserDetailsImpl nowUser) {
         Long nowUserId = nowUser.getId();
 
