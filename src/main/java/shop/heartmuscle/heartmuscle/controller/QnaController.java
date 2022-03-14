@@ -17,10 +17,9 @@ import shop.heartmuscle.heartmuscle.dto.request.QnaRequestDto;
 import shop.heartmuscle.heartmuscle.dto.ResultResponseDto;
 import shop.heartmuscle.heartmuscle.dto.response.QnaResponseDto;
 import shop.heartmuscle.heartmuscle.security.UserDetailsImpl;
-import shop.heartmuscle.heartmuscle.service.qna.QnaServiceImpl;
+import shop.heartmuscle.heartmuscle.service.qna.QnaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import java.io.IOException;
 
 
 
@@ -28,7 +27,7 @@ import java.io.IOException;
 @RestController
 public class QnaController {
 
-    private final QnaServiceImpl qnaService;
+    private final QnaService qnaService;
     private final QnaModelAssembler qnaModelAssembler;
     private final PagedResourcesAssembler pagedResourcesAssembler;
 
