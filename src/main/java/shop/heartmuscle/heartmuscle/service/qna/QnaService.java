@@ -5,10 +5,7 @@ import org.springframework.data.domain.Pageable;
 import shop.heartmuscle.heartmuscle.domain.Qna;
 import shop.heartmuscle.heartmuscle.dto.ResultResponseDto;
 import shop.heartmuscle.heartmuscle.dto.request.QnaRequestDto;
-import shop.heartmuscle.heartmuscle.dto.response.QnaResponseDto;
 import shop.heartmuscle.heartmuscle.security.UserDetailsImpl;
-
-import java.util.List;
 
 public interface QnaService {
 
@@ -23,7 +20,6 @@ public interface QnaService {
 
     ResultResponseDto delete(Long id, UserDetailsImpl nowUser);
 
-    void validate(Qna qna);
 
 
 }
