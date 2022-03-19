@@ -37,6 +37,8 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
+    testImplementation 'org.springframework.security:spring-security-test'
+
     implementation group: 'org.json', name: 'json', version: '20160810'
 
     // null 처리
@@ -45,14 +47,11 @@ dependencies {
     // API 문서 자동화, Swagger
     implementation 'org.springdoc:springdoc-openapi-ui:1.5.13'
 
-    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-hateoas
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-hateoas', version: '2.6.4'
 
-
-    // https://mvnrepository.com/artifact/org.modelmapper/modelmapper
     implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.4.4'
 
-
+    implementation 'com.google.code.gson:gson:2.8.8'
 }
 
 test {
