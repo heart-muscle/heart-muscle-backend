@@ -45,8 +45,8 @@ public class QnaController {
 
         EntityModel<QnaResponseDto> entityModel = qnaModelAssembler.toModel(qnaResponseDto);
 
-        return ResponseEntity //
-                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
+        return ResponseEntity
+                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(entityModel);
     }
 
