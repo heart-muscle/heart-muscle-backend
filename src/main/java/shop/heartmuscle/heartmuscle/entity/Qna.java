@@ -1,4 +1,4 @@
-package shop.heartmuscle.heartmuscle.domain;
+package shop.heartmuscle.heartmuscle.entity;
 
 import shop.heartmuscle.heartmuscle.dto.request.QnaRequestDto;
 import lombok.*;
@@ -29,7 +29,7 @@ public class Qna extends Timestamped {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "qna", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "qna", cascade = CascadeType.ALL)
     private List<QnaComment> comment;
 
 

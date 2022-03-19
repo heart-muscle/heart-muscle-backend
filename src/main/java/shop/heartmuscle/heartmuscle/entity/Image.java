@@ -1,4 +1,4 @@
-package shop.heartmuscle.heartmuscle.domain;
+package shop.heartmuscle.heartmuscle.entity;
 
 //@NoArgsConstructor(access = AccessLevel.PROTECTED)
 //@Getter

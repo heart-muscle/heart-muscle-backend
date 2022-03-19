@@ -1,7 +1,7 @@
 package shop.heartmuscle.heartmuscle.dto.request;
 
 import lombok.*;
-import shop.heartmuscle.heartmuscle.domain.Qna;
+import shop.heartmuscle.heartmuscle.entity.Qna;
 
 @Setter
 @Getter
@@ -12,12 +12,12 @@ public class QnaRequestDto {
     private String title;
     private String content;
 
-    public QnaRequestDto(final Qna qna) {
+    public QnaRequestDto(Qna qna) {
         this.title = qna.getTitle();
         this.content = qna.getContent();
     }
 
-    public static Qna toQna(final QnaRequestDto qnaRequestDto) {
+    public static Qna toQna(QnaRequestDto qnaRequestDto) {
         return Qna.builder()
                 .title(qnaRequestDto.getTitle())
                 .content(qnaRequestDto.getContent())

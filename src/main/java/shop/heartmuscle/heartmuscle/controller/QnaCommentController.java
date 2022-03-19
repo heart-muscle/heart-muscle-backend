@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import shop.heartmuscle.heartmuscle.dto.request.QnaCommentRequestDto;
-import shop.heartmuscle.heartmuscle.dto.ResultResponseDto;
+import shop.heartmuscle.heartmuscle.dto.response.ResultResponseDto;
 import shop.heartmuscle.heartmuscle.security.UserDetailsImpl;
 import shop.heartmuscle.heartmuscle.service.QnaCommentService;
 import lombok.RequiredArgsConstructor;

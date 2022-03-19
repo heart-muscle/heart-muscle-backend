@@ -1,10 +1,10 @@
-package shop.heartmuscle.heartmuscle.domain;
+package shop.heartmuscle.heartmuscle.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import shop.heartmuscle.heartmuscle.dto.CommentRequestDto;
+import shop.heartmuscle.heartmuscle.dto.request.CommentRequestDto;
 
 import javax.persistence.*;
 

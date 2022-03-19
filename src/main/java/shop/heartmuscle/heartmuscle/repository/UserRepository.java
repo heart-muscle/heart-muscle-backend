@@ -1,7 +1,7 @@
 package shop.heartmuscle.heartmuscle.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import shop.heartmuscle.heartmuscle.domain.User;
+import shop.heartmuscle.heartmuscle.entity.User;
 
 import java.util.Optional;
 

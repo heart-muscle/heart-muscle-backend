@@ -1,8 +1,8 @@
-package shop.heartmuscle.heartmuscle.dto;
+package shop.heartmuscle.heartmuscle.dto.response;
 
 import lombok.Getter;
 import lombok.Setter;
-import shop.heartmuscle.heartmuscle.domain.User;
+import shop.heartmuscle.heartmuscle.entity.User;
 
 import java.util.List;
 import java.util.Set;

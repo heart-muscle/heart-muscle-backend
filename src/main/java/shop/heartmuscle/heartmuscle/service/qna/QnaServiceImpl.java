@@ -2,12 +2,14 @@ package shop.heartmuscle.heartmuscle.service.qna;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
-import shop.heartmuscle.heartmuscle.domain.Qna;
-import shop.heartmuscle.heartmuscle.domain.User;
+import shop.heartmuscle.heartmuscle.entity.Qna;
+import shop.heartmuscle.heartmuscle.entity.User;
 import shop.heartmuscle.heartmuscle.dto.request.QnaRequestDto;
-import shop.heartmuscle.heartmuscle.dto.ResultResponseDto;
+import shop.heartmuscle.heartmuscle.dto.response.ResultResponseDto;
 import shop.heartmuscle.heartmuscle.exception.ApiRequestException;
 import shop.heartmuscle.heartmuscle.repository.QnaRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,7 @@ public class QnaServiceImpl implements QnaService{
         return qnaRepository.findAll(pageable);
     }
 
+
     //게시물 작성
     @Override
     @Transactional
@@ -36,12 +39,11 @@ public class QnaServiceImpl implements QnaService{
 
         qnaRepository.save(qna);
 
-        log.info("Qna Id: {} is saved.", qna.getId());
+        log.info(qna.getId() + "번 게시물이 저장 되었습니다.");
         return qnaRepository.findById(qna.getId()).orElseThrow(
                 () -> new ApiRequestException("해당 게시물 존재하지 않습니다.")
         );
     }
-
 
     //상세 페이지 조회
     @Override
@@ -66,6 +68,7 @@ public class QnaServiceImpl implements QnaService{
 
         if (nowUserId.equals(QnaUser)) {
             qnaUpdate.update(requestDto);
+            log.info(id + "번 게시물이 수정 되었습니다.");
             return new ResultResponseDto("success", "게시물이 수정 되었습니다.");
         } else {
             return new ResultResponseDto("fail", "게시물 수정 권한이 없습니다. .");

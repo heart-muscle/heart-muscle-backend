@@ -1,11 +1,9 @@
-package shop.heartmuscle.heartmuscle.domain;
+package shop.heartmuscle.heartmuscle.entity;
 
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import shop.heartmuscle.heartmuscle.dto.UserDto;
 
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;

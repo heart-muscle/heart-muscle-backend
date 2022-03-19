@@ -1,4 +1,4 @@
-package shop.heartmuscle.heartmuscle.domain;
+package shop.heartmuscle.heartmuscle.entity;
 
 public enum UserRole {
     USER,  // 사용자 권한

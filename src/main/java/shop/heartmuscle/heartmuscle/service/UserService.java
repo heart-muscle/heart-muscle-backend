@@ -7,12 +7,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import shop.heartmuscle.heartmuscle.domain.Feed;
-import shop.heartmuscle.heartmuscle.domain.User;
-import shop.heartmuscle.heartmuscle.domain.UserRole;
-import shop.heartmuscle.heartmuscle.domain.WorkoutTag;
-import shop.heartmuscle.heartmuscle.dto.FeedRequestDto;
-import shop.heartmuscle.heartmuscle.dto.SignupRequestDto;
+import shop.heartmuscle.heartmuscle.entity.User;
+import shop.heartmuscle.heartmuscle.entity.UserRole;
+import shop.heartmuscle.heartmuscle.dto.request.SignupRequestDto;
 import shop.heartmuscle.heartmuscle.dto.UserDto;
 import shop.heartmuscle.heartmuscle.repository.UserRepository;
 import shop.heartmuscle.heartmuscle.security.UserDetailsImpl;
@@ -21,10 +18,7 @@ import shop.heartmuscle.heartmuscle.security.kakao.KakaoUserInfo;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService {

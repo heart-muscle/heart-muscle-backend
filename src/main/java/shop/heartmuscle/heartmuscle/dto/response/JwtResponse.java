@@ -1,4 +1,4 @@
-package shop.heartmuscle.heartmuscle.dto;
+package shop.heartmuscle.heartmuscle.dto.response;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

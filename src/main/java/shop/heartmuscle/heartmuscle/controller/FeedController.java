@@ -7,12 +7,15 @@ import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import shop.heartmuscle.heartmuscle.domain.Feed;
-import shop.heartmuscle.heartmuscle.domain.User;
+import shop.heartmuscle.heartmuscle.entity.Feed;
+import shop.heartmuscle.heartmuscle.entity.User;
 import shop.heartmuscle.heartmuscle.dto.*;
+import shop.heartmuscle.heartmuscle.dto.request.CommentRequestDto;
+import shop.heartmuscle.heartmuscle.dto.request.FeedRequestDto;
+import shop.heartmuscle.heartmuscle.dto.response.UserResponseDto;
 import shop.heartmuscle.heartmuscle.repository.UserRepository;
 import shop.heartmuscle.heartmuscle.security.UserDetailsImpl;
-import shop.heartmuscle.heartmuscle.service.FeedService;
+import shop.heartmuscle.heartmuscle.service.FeedServiceImpl;
 import shop.heartmuscle.heartmuscle.service.UserService;
 
 import java.io.IOException;
@@ -22,7 +25,7 @@ import java.util.List;
 @RestController
 public class FeedController {
 
-    private final FeedService feedService;
+    private final FeedServiceImpl feedService;
     private final UserRepository userRepository;
     private final UserService userService;
     private final ModelMapper modelMapper;

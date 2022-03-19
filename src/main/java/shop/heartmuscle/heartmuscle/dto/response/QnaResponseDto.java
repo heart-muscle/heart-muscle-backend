@@ -1,8 +1,8 @@
 package shop.heartmuscle.heartmuscle.dto.response;
 
 import lombok.*;
-import shop.heartmuscle.heartmuscle.domain.Qna;
-import shop.heartmuscle.heartmuscle.domain.QnaComment;
+import shop.heartmuscle.heartmuscle.entity.Qna;
+import shop.heartmuscle.heartmuscle.entity.QnaComment;
 
 import java.util.List;
 

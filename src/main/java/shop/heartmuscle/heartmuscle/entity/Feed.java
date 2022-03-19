@@ -1,10 +1,10 @@
-package shop.heartmuscle.heartmuscle.domain;
+package shop.heartmuscle.heartmuscle.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import shop.heartmuscle.heartmuscle.dto.FeedRequestDto;
+import shop.heartmuscle.heartmuscle.dto.request.FeedRequestDto;
 
 import javax.persistence.*;
 import java.util.List;
@@ -30,9 +30,6 @@ public class Feed extends Timestamped{
     @Column(nullable = true)
     private String imageUrl;
 
-    @Column(nullable = false)
-    private String username;
-
     @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
@@ -47,7 +44,6 @@ public class Feed extends Timestamped{
         this.title = feedRequestDto.getTitle();
         this.content = feedRequestDto.getContent();
         this.imageUrl = imageUrl;
-        this.username = feedRequestDto.getUsername();
         this.user = user;
     }
 
