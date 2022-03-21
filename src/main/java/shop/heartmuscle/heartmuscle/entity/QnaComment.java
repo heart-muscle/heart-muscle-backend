@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Entity
 public class QnaComment extends Timestamped {
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
 
