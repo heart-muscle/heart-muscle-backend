@@ -15,7 +15,7 @@ import javax.persistence.*;
 @Entity
 public class WorkoutTag extends Timestamped {
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
 
