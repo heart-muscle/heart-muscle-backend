@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,6 +28,7 @@ import shop.heartmuscle.heartmuscle.repository.UserRepository;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -48,6 +50,8 @@ class QnaControllerTest {
     UserRepository userRepository;
     @Autowired
     QnaRepository qnaRepository;
+    @Autowired
+    ModelMapper modelMapper;
 
     private User testUser;
 
@@ -82,6 +86,10 @@ class QnaControllerTest {
     void createQna() throws Exception {
         QnaRequestDto qnaRequestDto = new QnaRequestDto("제목2", "내용2");
 
+        Qna map = modelMapper.map(qnaRequestDto, Qna.class);
+
+        assertThat(map.getContent()).isEqualTo(qnaRequestDto.getContent());
+
         Qna qna2 = new Qna(qnaRequestDto, testUser);
 
         String jsonString = objectMapper.writeValueAsString(qna2);
@@ -90,14 +98,14 @@ class QnaControllerTest {
                         .content(jsonString))
                         .andExpectAll(
                                 status().isCreated(),
-                                jsonPath("$.id").value(2L)
+                                jsonPath("$.id").value(1L)
                         )
                         .andDo(print());
 
-        Optional<Qna> findQna = qnaRepository.findById(2L);
+        Optional<Qna> findQna = qnaRepository.findById(1L);
 
-        Assertions.assertThat(findQna.get().getTitle()).isEqualTo("제목2");
-        Assertions.assertThat(findQna.get().getContent()).isEqualTo("내용2");
+        assertThat(findQna.get().getTitle()).isEqualTo("제목2");
+        assertThat(findQna.get().getContent()).isEqualTo("내용2");
     }
 
     @Test
@@ -110,14 +118,27 @@ class QnaControllerTest {
         qnaRepository.save(qna3);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/qna/{id}", 3)
+                        .get("/qna/{id}", 2)
                         .accept(MediaType.APPLICATION_JSON))
                         .andDo(print())
                         .andExpectAll(
                                 status().isOk(),
-                                MockMvcResultMatchers.jsonPath("$.id").value(3));
+                                MockMvcResultMatchers.jsonPath("$.id").value(2));
 
 
+    }
+
+    @Test
+    @DisplayName("modelmapper 확인")
+    @Order(3)
+    @WithUserDetails(value = "test")
+    void model() throws Exception {
+        QnaRequestDto qnaRequestDto = new QnaRequestDto("제목2", "내용2");
+
+        Qna map = modelMapper.map(qnaRequestDto, Qna.class);
+
+        assertThat(map.getContent()).isEqualTo(qnaRequestDto.getContent());
+        assertThat(map.getTitle()).isEqualTo(qnaRequestDto.getTitle());
     }
 
 }

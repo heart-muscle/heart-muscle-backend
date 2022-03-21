@@ -1,6 +1,7 @@
 package shop.heartmuscle.heartmuscle.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -30,12 +31,12 @@ public class QnaController {
     private final QnaService qnaService;
     private final QnaModelAssembler qnaModelAssembler;
     private final PagedResourcesAssembler pagedResourcesAssembler;
+    private final ModelMapper modelMapper;
 
     @PostMapping("/qna")
     public ResponseEntity<?> createQna(@RequestBody QnaRequestDto qnaRequestDto, @AuthenticationPrincipal UserDetailsImpl nowUser) {
 
-
-        Qna qnaEntity = QnaRequestDto.toQna(qnaRequestDto);
+        Qna qnaEntity = modelMapper.map(qnaRequestDto, Qna.class);
 
         qnaEntity.setUser(nowUser.getUser());
 
@@ -63,7 +64,7 @@ public class QnaController {
 
         Qna qna = qnaService.getQnaOne(id);
 
-        QnaResponseDto qnaResponseDto = QnaResponseDto.toDto(qna);
+        QnaResponseDto qnaResponseDto = modelMapper.map(qna, QnaResponseDto.class);
 
         return qnaModelAssembler.toModel(qnaResponseDto);
     }
