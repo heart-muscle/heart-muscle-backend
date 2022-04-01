@@ -2,15 +2,14 @@ package shop.heartmuscle.heartmuscle.service.qna;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 import shop.heartmuscle.heartmuscle.entity.Qna;
 import shop.heartmuscle.heartmuscle.entity.User;
 import shop.heartmuscle.heartmuscle.dto.request.QnaRequestDto;
 import shop.heartmuscle.heartmuscle.dto.response.ResultResponseDto;
 import shop.heartmuscle.heartmuscle.exception.ApiRequestException;
+import shop.heartmuscle.heartmuscle.exception.QnaNotFoundException;
 import shop.heartmuscle.heartmuscle.repository.QnaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,9 +38,8 @@ public class QnaServiceImpl implements QnaService{
 
         qnaRepository.save(qna);
 
-        log.info(qna.getId() + "번 게시물이 저장 되었습니다.");
         return qnaRepository.findById(qna.getId()).orElseThrow(
-                () -> new ApiRequestException("해당 게시물 존재하지 않습니다.")
+                () -> new ApiRequestException("해당 게시물이 저장 되지 않았습니다.")
         );
     }
 
@@ -49,8 +47,7 @@ public class QnaServiceImpl implements QnaService{
     @Override
     public Qna getQnaOne(Long id) {
         return qnaRepository.findById(id).orElseThrow(
-                () -> new ApiRequestException("해당 게시물 존재하지 않습니다.")
-        );
+                () -> new ApiRequestException("해당 게시물이 존재하지 않습니다."));
     }
 
     //게시물 수정
@@ -71,7 +68,7 @@ public class QnaServiceImpl implements QnaService{
             log.info(id + "번 게시물이 수정 되었습니다.");
             return new ResultResponseDto("success", "게시물이 수정 되었습니다.");
         } else {
-            return new ResultResponseDto("fail", "게시물 수정 권한이 없습니다. .");
+            return new ResultResponseDto("fail", "게시물 수정 권한이 없습니다.");
         }
     }
 
