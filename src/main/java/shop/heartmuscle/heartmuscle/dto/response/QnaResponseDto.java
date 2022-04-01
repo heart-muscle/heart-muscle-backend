@@ -6,9 +6,9 @@ import shop.heartmuscle.heartmuscle.entity.QnaComment;
 
 import java.util.List;
 
-@Setter
-@Getter
+
 @Builder
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class QnaResponseDto {
