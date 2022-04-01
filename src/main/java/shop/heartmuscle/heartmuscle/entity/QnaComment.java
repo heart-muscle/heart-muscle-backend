@@ -22,11 +22,13 @@ public class QnaComment extends Timestamped {
     private String comment;
 
     @JsonIgnore
-    @ManyToOne
+//    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="qna_id", nullable = false)
     private Qna qna;
 
-    @ManyToOne
+//    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
