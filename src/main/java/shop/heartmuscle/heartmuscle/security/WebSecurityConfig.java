@@ -34,7 +34,11 @@ import shop.heartmuscle.heartmuscle.controller.JwtAuthenticationFilter;
         http.cors().and();
         http.csrf().disable();
         http.headers().frameOptions().disable();
-
+        http
+            .headers()
+            .xssProtection()
+            .and()
+            .contentSecurityPolicy("script-src 'self'");
         http.authorizeRequests()
                 // html 열어주기
                 .antMatchers("/*.html").permitAll()
