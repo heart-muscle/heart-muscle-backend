@@ -1,9 +1,12 @@
 package shop.heartmuscle.heartmuscle.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import shop.heartmuscle.heartmuscle.controller.JwtAuthenticationEntryPoint;
 import shop.heartmuscle.heartmuscle.controller.JwtAuthenticationFilter;
+import shop.heartmuscle.heartmuscle.util.HtmlCharacterEscapes;
 
 @RequiredArgsConstructor
 @Configuration
@@ -91,4 +95,11 @@ import shop.heartmuscle.heartmuscle.controller.JwtAuthenticationFilter;
         return super.authenticationManagerBean();
     }
 
+    @Bean
+    public MappingJackson2HttpMessageConverter jsonEscapeConverter() {
+        // MappingJackson2HttpMessageConverter Default ObjectMapper 설정 및 ObjectMapper Config 설정
+        ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().build();
+        objectMapper.getFactory().setCharacterEscapes(new HtmlCharacterEscapes());
+        return new MappingJackson2HttpMessageConverter(objectMapper);
+    }
 }
