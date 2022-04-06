@@ -88,29 +88,4 @@ public class FeedController {
         feedService.createComment(commentRequestDto, nowUser);
     }
 
-    // ----------------------------------마이페이지---------------------------------- //
-    // 전체 유저 불러오기
-    @Operation(description = "전체 유저 불러오기", method = "GET")
-    @GetMapping("/user")
-    public List<User> getUsers() {
-        return userRepository.findAll();
-    }
-
-
-    // 유저 정보 불러오기( id = username )
-    @Operation(description = "특정 유저 정보 불러오기", method = "GET")
-    @GetMapping("/user/{id}")
-    public UserResponseDto.Response getUser(@PathVariable String id) {
-        User user = userService.getUserByUsername(id);
-        UserResponseDto.Response response = modelMapper.map(user, new TypeToken<UserResponseDto.Response>() {}.getType());
-        return response;
-    }
-
-    // 유저 프로필 수정하기
-    @Operation(description = "유저 프로필 수정하기", method = "POST")
-    @PostMapping("/user/detail")
-    public String updateUser(UserDto userDto) throws IOException {
-        userService.update(userDto);
-        return "완료!";
-    }
 }
