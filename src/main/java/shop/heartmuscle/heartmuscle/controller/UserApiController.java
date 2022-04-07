@@ -44,7 +44,6 @@ public class UserApiController {
 
     @PostMapping(value = "/login/kakao")
     public ResponseEntity<?> createAuthenticationTokenByKakao(@RequestBody SocialLoginDto socialLoginDto) throws Exception {
-        System.out.println("컨트롤러경중경중");
         String username = userService.kakaoLogin(socialLoginDto.getToken());
         final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         final String token = jwtTokenUtil.generateToken(userDetails);
@@ -59,9 +58,11 @@ public class UserApiController {
         final String token = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(new JwtResponse(token, userDetails.getUsername()));
     }
+
     @RequestMapping(value = "/user/availability", method = RequestMethod.POST)
     public String checkSignup(HttpServletRequest request, Model model) {
-        String id = request.getParameter("id"); int rowcount = userService.checkSignup(id);
+        String id = request.getParameter("id");
+        int rowcount = userService.checkSignup(id);
         return String.valueOf(rowcount);
     }
 

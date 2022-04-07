@@ -9,7 +9,6 @@ import shop.heartmuscle.heartmuscle.entity.User;
 import shop.heartmuscle.heartmuscle.dto.request.QnaRequestDto;
 import shop.heartmuscle.heartmuscle.dto.response.ResultResponseDto;
 import shop.heartmuscle.heartmuscle.exception.ApiRequestException;
-import shop.heartmuscle.heartmuscle.exception.QnaNotFoundException;
 import shop.heartmuscle.heartmuscle.repository.QnaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -85,7 +84,7 @@ public class QnaServiceImpl implements QnaService{
         User findQnaUser = qna.getUser();
         Long QnaUser = findQnaUser.getId();
 
-        if (nowUserId.equals(QnaUser)) {
+        if (nowUserId == (QnaUser)) {
             qnaRepository.delete(qna);
             return new ResultResponseDto("success", "게시물이 삭제 되었습니다.");
         } else {
