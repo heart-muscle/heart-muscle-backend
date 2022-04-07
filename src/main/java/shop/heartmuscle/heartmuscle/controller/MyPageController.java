@@ -12,7 +12,6 @@ import shop.heartmuscle.heartmuscle.dto.UserDto;
 import shop.heartmuscle.heartmuscle.dto.response.UserResponseDto;
 import shop.heartmuscle.heartmuscle.entity.User;
 import shop.heartmuscle.heartmuscle.repository.UserRepository;
-import shop.heartmuscle.heartmuscle.service.FeedServiceImpl;
 import shop.heartmuscle.heartmuscle.service.UserService;
 
 import java.io.IOException;
@@ -46,9 +45,8 @@ public class MyPageController {
     // 유저 프로필 수정하기
     @Operation(description = "유저 프로필 수정하기", method = "POST")
     @PostMapping("/user/detail")
-    public String updateUser(UserDto userDto) throws IOException {
-        userService.update(userDto);
-        return "완료!";
+    public Long updateUser(UserDto userDto) throws IOException {
+        return userService.update(userDto);
     }
 
 }
