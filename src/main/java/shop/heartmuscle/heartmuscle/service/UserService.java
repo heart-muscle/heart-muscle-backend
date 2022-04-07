@@ -35,7 +35,6 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
         this.kakaoOAuth2 = kakaoOAuth2;
         this.authenticationManager = authenticationManager;
-        // 이거 추가하는 이유 하림님 질문하기
         this.awsService = awsService;
     }
 
@@ -68,7 +67,6 @@ public class UserService {
 
     public String kakaoLogin(String token) {
         // 카카오 OAuth2 를 통해 카카오 사용자 정보 조회
-        System.out.println("카카오로그인경중경중");
         KakaoUserInfo userInfo = kakaoOAuth2.getUserInfo(token);
         Long kakaoId = userInfo.getId();
         String nickname = userInfo.getNickname();
@@ -100,7 +98,6 @@ public class UserService {
         Authentication kakaoUsernamePassword = new UsernamePasswordAuthenticationToken(username, password);
         Authentication authentication = authenticationManager.authenticate(kakaoUsernamePassword);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        System.out.println("리턴되기직전경중경중");
         return username;
     }
 
@@ -119,8 +116,8 @@ public class UserService {
         );
     }
 
-    public User getUserByUsername(String id) {
-        return userRepository.findByUsername(id).orElseThrow(
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElseThrow(
                 () -> new NullPointerException("존재하지않습니다.")
         );
     }
