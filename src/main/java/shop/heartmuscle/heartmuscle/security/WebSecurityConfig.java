@@ -38,7 +38,11 @@ import shop.heartmuscle.heartmuscle.util.HtmlCharacterEscapes;
         http.cors().and();
         http.csrf().disable();
         http.headers().frameOptions().disable();
-
+        http
+            .headers()
+            .xssProtection()
+            .and()
+            .contentSecurityPolicy("script-src 'self'");
         http.authorizeRequests()
                 // html 열어주기
                 .antMatchers("/*.html").permitAll()
@@ -98,5 +102,3 @@ import shop.heartmuscle.heartmuscle.util.HtmlCharacterEscapes;
         objectMapper.getFactory().setCharacterEscapes(new HtmlCharacterEscapes());
         return new MappingJackson2HttpMessageConverter(objectMapper);
     }
-
-}

@@ -50,6 +50,8 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-hateoas', version: '2.6.4'
 
     implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.4.4'
+    
+    implementation 'org.apache.commons:commons-text:1.9'
 
     implementation 'com.google.code.gson:gson:2.8.8'
 }
