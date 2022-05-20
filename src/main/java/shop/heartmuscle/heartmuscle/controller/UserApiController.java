@@ -10,8 +10,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
-import shop.heartmuscle.heartmuscle.domain.User;
+import shop.heartmuscle.heartmuscle.entity.User;
 import shop.heartmuscle.heartmuscle.dto.*;
+import shop.heartmuscle.heartmuscle.dto.request.SignupRequestDto;
+import shop.heartmuscle.heartmuscle.dto.response.JwtResponse;
 import shop.heartmuscle.heartmuscle.security.UserDetailsImpl;
 import shop.heartmuscle.heartmuscle.security.kakao.KakaoOAuth2;
 import shop.heartmuscle.heartmuscle.service.UserService;
@@ -42,7 +44,6 @@ public class UserApiController {
 
     @PostMapping(value = "/login/kakao")
     public ResponseEntity<?> createAuthenticationTokenByKakao(@RequestBody SocialLoginDto socialLoginDto) throws Exception {
-        System.out.println("컨트롤러경중경중");
         String username = userService.kakaoLogin(socialLoginDto.getToken());
         final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         final String token = jwtTokenUtil.generateToken(userDetails);
@@ -57,9 +58,11 @@ public class UserApiController {
         final String token = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(new JwtResponse(token, userDetails.getUsername()));
     }
+
     @RequestMapping(value = "/user/availability", method = RequestMethod.POST)
     public String checkSignup(HttpServletRequest request, Model model) {
-        String id = request.getParameter("id"); int rowcount = userService.checkSignup(id);
+        String id = request.getParameter("id");
+        int rowcount = userService.checkSignup(id);
         return String.valueOf(rowcount);
     }
 

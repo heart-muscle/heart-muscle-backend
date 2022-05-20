@@ -7,12 +7,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import shop.heartmuscle.heartmuscle.domain.Feed;
-import shop.heartmuscle.heartmuscle.domain.User;
-import shop.heartmuscle.heartmuscle.domain.UserRole;
-import shop.heartmuscle.heartmuscle.domain.WorkoutTag;
-import shop.heartmuscle.heartmuscle.dto.FeedRequestDto;
-import shop.heartmuscle.heartmuscle.dto.SignupRequestDto;
+import shop.heartmuscle.heartmuscle.entity.User;
+import shop.heartmuscle.heartmuscle.entity.UserRole;
+import shop.heartmuscle.heartmuscle.dto.request.SignupRequestDto;
 import shop.heartmuscle.heartmuscle.dto.UserDto;
 import shop.heartmuscle.heartmuscle.repository.UserRepository;
 import shop.heartmuscle.heartmuscle.security.UserDetailsImpl;
@@ -21,10 +18,7 @@ import shop.heartmuscle.heartmuscle.security.kakao.KakaoUserInfo;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -41,7 +35,6 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
         this.kakaoOAuth2 = kakaoOAuth2;
         this.authenticationManager = authenticationManager;
-        // 이거 추가하는 이유 하림님 질문하기
         this.awsService = awsService;
     }
 
@@ -74,7 +67,6 @@ public class UserService {
 
     public String kakaoLogin(String token) {
         // 카카오 OAuth2 를 통해 카카오 사용자 정보 조회
-        System.out.println("카카오로그인경중경중");
         KakaoUserInfo userInfo = kakaoOAuth2.getUserInfo(token);
         Long kakaoId = userInfo.getId();
         String nickname = userInfo.getNickname();
@@ -106,7 +98,6 @@ public class UserService {
         Authentication kakaoUsernamePassword = new UsernamePasswordAuthenticationToken(username, password);
         Authentication authentication = authenticationManager.authenticate(kakaoUsernamePassword);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        System.out.println("리턴되기직전경중경중");
         return username;
     }
 
@@ -125,8 +116,8 @@ public class UserService {
         );
     }
 
-    public User getUserByUsername(String id) {
-        return userRepository.findByUsername(id).orElseThrow(
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElseThrow(
                 () -> new NullPointerException("존재하지않습니다.")
         );
     }

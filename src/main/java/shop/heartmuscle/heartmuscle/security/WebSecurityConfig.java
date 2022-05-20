@@ -102,4 +102,3 @@ import shop.heartmuscle.heartmuscle.util.HtmlCharacterEscapes;
         objectMapper.getFactory().setCharacterEscapes(new HtmlCharacterEscapes());
         return new MappingJackson2HttpMessageConverter(objectMapper);
     }
-}

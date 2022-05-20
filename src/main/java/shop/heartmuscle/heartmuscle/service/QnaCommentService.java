@@ -1,10 +1,10 @@
 package shop.heartmuscle.heartmuscle.service;
 
-import shop.heartmuscle.heartmuscle.domain.Qna;
-import shop.heartmuscle.heartmuscle.domain.QnaComment;
-import shop.heartmuscle.heartmuscle.domain.User;
-import shop.heartmuscle.heartmuscle.dto.QnaCommentRequestDto;
-import shop.heartmuscle.heartmuscle.dto.ResultResponseDto;
+import shop.heartmuscle.heartmuscle.entity.Qna;
+import shop.heartmuscle.heartmuscle.entity.QnaComment;
+import shop.heartmuscle.heartmuscle.entity.User;
+import shop.heartmuscle.heartmuscle.dto.request.QnaCommentRequestDto;
+import shop.heartmuscle.heartmuscle.dto.response.ResultResponseDto;
 import shop.heartmuscle.heartmuscle.repository.QnaCommentRepository;
 import shop.heartmuscle.heartmuscle.repository.QnaRepository;
 import lombok.RequiredArgsConstructor;

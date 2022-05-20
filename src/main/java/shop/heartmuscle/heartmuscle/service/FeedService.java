@@ -6,12 +6,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import shop.heartmuscle.heartmuscle.domain.Comment;
-import shop.heartmuscle.heartmuscle.domain.Feed;
-import shop.heartmuscle.heartmuscle.domain.User;
-import shop.heartmuscle.heartmuscle.domain.WorkoutTag;
-import shop.heartmuscle.heartmuscle.dto.CommentRequestDto;
-import shop.heartmuscle.heartmuscle.dto.FeedRequestDto;
+import shop.heartmuscle.heartmuscle.entity.Comment;
+import shop.heartmuscle.heartmuscle.entity.Feed;
+import shop.heartmuscle.heartmuscle.entity.User;
+import shop.heartmuscle.heartmuscle.entity.WorkoutTag;
+import shop.heartmuscle.heartmuscle.dto.request.CommentRequestDto;
+import shop.heartmuscle.heartmuscle.dto.request.FeedRequestDto;
 import shop.heartmuscle.heartmuscle.repository.CommentRepository;
 import shop.heartmuscle.heartmuscle.repository.FeedRepository;
 import shop.heartmuscle.heartmuscle.repository.UserRepository;
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class FeedService {
+public class FeedService{
 
     private final FeedRepository feedRepository;
     private final CommentRepository commentRepository;
@@ -35,7 +35,6 @@ public class FeedService {
     private final UserRepository userRepository;
 
     // 피드 작성
-    @Transactional
     public Feed saveFeed(FeedRequestDto feedRequestDto, UserDetailsImpl nowUser) throws IOException {
         String url = null;
 
@@ -54,11 +53,6 @@ public class FeedService {
 
         return feed;
     }
-
-    // 피드 전체 목록 가져오기 [ version 1 ]
-    //    public List<Feed> getFeeds() {
-    //        return feedRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
-    //    }
 
     // 피드 전체 목록 가져오기 + 페이징 처리 [ version 2 ]
     public Page<Feed> getFeeds(int page, int size, String sortBy, boolean isAsc) {
